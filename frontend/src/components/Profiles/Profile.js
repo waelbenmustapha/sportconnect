@@ -1565,7 +1565,7 @@ return (
               <label htmlFor="profile-image-upload" className="relative">
                 <div 
                   className="w-40 h-40 rounded-full bg-cover bg-center border-4 border-gray-800 shadow-lg"
-                  style={{ backgroundImage: `url(${profileImage || (userData.player ? '/assets/PLAYER.png' : userData.agent ? '/assets/AGENT.png' : userData.recruiter?'/assets/COACH.png':userData.club?'/assets/CLUB.png':null)})` }}
+                  style={{ backgroundImage: `url(${profileImage || (userData.player ? '/assets/player.png' : userData.agent ? '/assets/agent.png' : userData.recruiter?'/assets/coach.png':userData.club?'/assets/club.png':null)})` }}
                   >
                   <div className="absolute bottom-0 right-0 bg-gray-800 rounded-full p-2 cursor-pointer shadow-md hover:bg-gray-700 transition duration-200">
                     <Icon path={mdiCamera} size={0.8} className="text-white" />
@@ -1657,7 +1657,7 @@ return (
         <div className="bg-gray-700 rounded-lg p-6 shadow-md flex items-center space-x-6">
           <div 
             className="w-24 h-24 rounded-full bg-cover bg-center shadow-md"
-            style={{ backgroundImage: `url(${currentClub.image || '/assets/CLUB.png'})` }}
+            style={{ backgroundImage: `url(${currentClub.image || '/assets/club.png'})` }}
             onClick={() => navigate("/pprofile", { state: { email: currentClub.email } })}
           ></div>
           <div>
@@ -1680,7 +1680,7 @@ return (
       <div className="bg-gray-700 rounded-lg p-6 shadow-md flex items-center space-x-6 mt-4">
         <div 
           className="w-24 h-24 rounded-full bg-cover bg-center shadow-md"
-          style={{ backgroundImage: `url(${clubLeaderProfileImage || '/assets/CLUB.png'})` }}
+          style={{ backgroundImage: `url(${clubLeaderProfileImage || '/assets/club.png'})` }}
           onClick={() => navigate("/pprofile", { state: { email: userData.player ? userData.player.currentClub.email : userData.email } })}
         ></div>
         <div>
@@ -1703,7 +1703,7 @@ return (
                 <div key={index} className="text-center relative">
                   <div 
                     className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                    style={{ backgroundImage: `url(${club.image || '/assets/CLUB.png'})` }}
+                    style={{ backgroundImage: `url(${club.image || '/assets/club.png'})` }}
                     onClick={() => navigate("/pprofile", { state: { email: club.email } })}
                   >
                     <button
@@ -1742,7 +1742,7 @@ return (
               <div key={index} className="text-center relative">
                 <div 
                   className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
-                  style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
+                  style={{ backgroundImage: `url(${player.profileImage || '/assets/player.png'})` }}
                   onClick={() => navigate("/pprofile", { state: { email: player.email } })}
                 >
                   <button
@@ -1778,7 +1778,7 @@ return (
               <div key={index} className="text-center relative">
                 <div 
                   className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                  style={{ backgroundImage: `url(${recruiter.profileImage || '/assets/COACH.png'})` }}
+                  style={{ backgroundImage: `url(${recruiter.profileImage || '/assets/coach.png'})` }}
                   onClick={() => navigate("/pprofile", { state: { email: recruiter.email } })}
                 >
                   <button
@@ -1897,7 +1897,7 @@ return (
           <div key={index} className="text-center relative">
             <div 
               className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
-              style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
+              style={{ backgroundImage: `url(${player.profileImage || '/assets/player.png'})` }}
               onClick={() => handlePlayerClick(player)}
             >
               <button
