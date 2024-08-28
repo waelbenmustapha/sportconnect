@@ -29,7 +29,10 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('id',response.data.id);
       setId(response.data.id)
-      if (response.data.role === 'none') {
+      console.log(response.data.role)
+      console.log(response.data.role=="none")
+      if (response.data.role=="none") {
+        console.log("navigating")
         navigate('/welcomepick', { state: { fullName: response.data.fullName} });
       } else {
         navigate('/profile');
