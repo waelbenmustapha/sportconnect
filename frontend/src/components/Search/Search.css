@@ -1,0 +1,35 @@
+
+/* Search.css */
+
+.search-container {
+    width: 60%;
+    margin: 0 auto;
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid #fff;
+    margin-bottom: 20px;
+  }
+  
+  .header-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid #fff;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .header-item.active {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .content {
+    padding: 20px;
+    background-color: #111;
+  }
+  

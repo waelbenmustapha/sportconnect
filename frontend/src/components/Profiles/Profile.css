@@ -1,0 +1,150 @@
+/* Center the profile container at the top of the screen */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    height: 100vh;
+    background-color: #000; /* Black background */
+    padding-top: 50px; /* Adjust this value to control how far down from the top the profile section is */
+  }
+  
+  /* The rectangle (profile card) */
+  .profile-card {
+    position: relative;
+    width: 60%;
+    height: 300px; /* Adjust height as needed */
+    background-color: #000; /* Black background */
+    border-radius: 8px;
+    border: 2px solid #fff; /* White border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    background-size: cover; /* Ensure background image covers the entire container */
+    background-position: center; 
+    justify-content: center;
+  }
+  
+  /* The circle on the bottom left */
+  .profile-circle {
+    position: absolute;
+    bottom: -50px; /* Adjust this to control how much the circle overlaps the rectangle */
+    left: 30px;
+    width: 100px;
+    height: 100px;
+    background-color: #000; /* Black background */
+    border-radius: 50%;
+    background-size: cover; /* Ensure profile image covers the entire circle */
+    background-position: center; 
+    border: 2px solid #fff; /* White border */
+  }
+  
+  /* The user's name positioned above the rectangle line */
+  .profile-name {
+    position: absolute;
+    bottom: -35px; /* Adjust to align the text with the circle */
+    left: 150px; /* Adjust to position next to the circle */
+    font-size: 24px;
+    color: #fff; /* White text */
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Container for the role information items */
+  .role-info-container {
+    width: 60%; /* Make the width the same as the profile card */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 60px; /* Space between the profile card and the role info */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #000; /* Black background */
+  }
+  
+  /* Each role information item (rectangle) */
+  .role-info-item {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    border: 2px solid #fff; /* White border */
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap; /* Prevents text from wrapping inside the box */
+  }
+  .club-info-container {
+    margin-top: 20px;
+    color:white;
+    text-align: center;
+  }
+  
+  .club-image {
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    margin: 10px auto;
+    border-radius: 50%;
+  }
+  
+  .club-name {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #333;
+  }
+  .club-list-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+  
+  .club-list-container h3 {
+    margin-bottom: 10px;
+  }
+  
+  .club-list-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .club-list-container ul li {
+    padding: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+  }
+  
+  .club-list-container ul li:hover {
+    background-color: #f0f0f0;
+  }
+  .past-clubs-container {
+    margin-top: 20px;
+    color:white;
+    text-align: center;
+  }
+  
+  .past-clubs-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .past-club-item {
+    margin: 10px;
+    text-align: center;
+  }
+  .search-test {
+    font-size: 20px;
+    color: white;
+    background-color: black;
+    border: 2px solid white;
+    width: 60%;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif; /* Professional font choice */
+}
