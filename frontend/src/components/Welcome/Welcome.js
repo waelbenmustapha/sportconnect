@@ -19,10 +19,10 @@ const Welcome = () => {
     const fetchData = async () => {
       try {
         const [playersRes, clubsRes, agentsRes, recruitersRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/v1/player/getplayerssearch'),
-          axios.get('http://localhost:5000/api/v1/club/getclubssearch'),
-          axios.get('http://localhost:5000/api/v1/agent/getAgentsSearch'),
-          axios.get('http://localhost:5000/api/v1/recruiter/getRecruitersSearch')
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/player/getplayerssearch'),
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/club/getclubssearch'),
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/agent/getAgentsSearch'),
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/recruiter/getRecruitersSearch')
         ]);
         setPlayers(playersRes.data.users);
         setClubs(clubsRes.data.clubs);

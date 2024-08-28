@@ -9,7 +9,7 @@ function Agents() {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/agent/getAgentsSearch');
+        const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/agent/getAgentsSearch');
         setAgents(response.data.users);
       } catch (error) {
         console.error('Error fetching agents:', error);
@@ -53,7 +53,7 @@ function Agents() {
               <img
               onClick={()=>{navigate("/pprofile",{state:{email:agent.email}})}}
 
-                src={`http://localhost:5000${agent.profileImageUrl}`}
+                src={`https://sportconnect-khom.onrender.com${agent.profileImageUrl}`}
                 alt={`${agent.fullName} profile`}
                 style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }}
               />

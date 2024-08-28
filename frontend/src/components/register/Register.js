@@ -24,7 +24,7 @@ const Register = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/user/register', values);
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/register', values);
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong');

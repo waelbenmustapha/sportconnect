@@ -21,14 +21,14 @@ const Searching = () => {
     const fetchData = async () => {
       try {
         const [playersRes, clubsRes, agentsRes, recruitersRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/v1/player/getplayerssearch'),
-          axios.get('http://localhost:5000/api/v1/club/getclubssearch'),
-          axios.get('http://localhost:5000/api/v1/agent/getAgentsSearch'),
-          axios.get('http://localhost:5000/api/v1/recruiter/getRecruitersSearch')
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/player/getplayerssearch'),
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/club/getclubssearch'),
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/agent/getAgentsSearch'),
+          axios.get('https://sportconnect-khom.onrender.com/api/v1/recruiter/getRecruitersSearch')
         ]);
         if (id){
           const token=localStorage.getItem('token');
-        const response = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id }, {
+        const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -142,7 +142,7 @@ const Searching = () => {
     if (result.profileImage?.startsWith('data:')) {
       return result.profileImage;
     } else if (result.profileImage || result.profileImageUrl || result.contact?.profileImageUrl) {
-      return `http://localhost:5000${result.profileImage || result.profileImageUrl || result.contact?.profileImageUrl}`;
+      return `https://sportconnect-khom.onrender.com${result.profileImage || result.profileImageUrl || result.contact?.profileImageUrl}`;
     } else {
       return getBackgroundImage(result.type);
     }
@@ -191,7 +191,7 @@ const Searching = () => {
 <img
   src={result.profileImage?.startsWith('data:') 
     ? result.profileImage 
-    : `http://localhost:5000${result.profileImage || result.profileImageUrl || result.contact?.profileImageUrl}`
+    : `https://sportconnect-khom.onrender.com${result.profileImage || result.profileImageUrl || result.contact?.profileImageUrl}`
   }
   alt={result.fullName || result.clubName}
   className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-gray-600"

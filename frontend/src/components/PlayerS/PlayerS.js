@@ -45,7 +45,7 @@ const PlayerS = () => {
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/club/getclubssearch');
+        const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/club/getclubssearch');
         setClubs(response.data.clubs);
       } catch (error) {
         console.error('Error fetching clubs:', error);
@@ -57,7 +57,7 @@ const PlayerS = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post('http://localhost:5000/api/v1/player/addplayer', values, {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/player/addplayer', values, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

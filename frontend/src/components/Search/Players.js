@@ -9,7 +9,7 @@ function Players() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/player/getplayerssearch');
+        const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/player/getplayerssearch');
         setUsers(response.data.users);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -37,7 +37,7 @@ function Players() {
             {user.profileImageUrl && (
               <img
               onClick={()=>{navigate("/pprofile",{state:{email:user.email}})}}
-                src={`http://localhost:5000${user.profileImageUrl}`}
+                src={`https://sportconnect-khom.onrender.com${user.profileImageUrl}`}
                 alt={`${user.fullName} profile`}
                 style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }}
               />

@@ -34,7 +34,7 @@ const ClubS = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/v1/club/addclub', values, {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/addclub', values, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -30,7 +30,7 @@ function Sprofile() {
       setLoading(true);
       const token = localStorage.getItem('token');
 
-      const responses = await axios.post('http://localhost:5000/api/v1/user/retrieve-by-email', { email }, {
+      const responses = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve-by-email', { email }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,7 +51,7 @@ function Sprofile() {
           clubId=data.id;
         }
         console.log(data.club);
-        const response = await axios.post('http://localhost:5000/api/v1/club/club-players', 
+        const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/club-players', 
           { clubId }, 
           {
             headers: {
@@ -75,10 +75,10 @@ function Sprofile() {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const responsefirst = await axios.post('http://localhost:5000/api/v1/user/retrieve-by-email', { email });
+        const responsefirst = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve-by-email', { email });
         const dataf = responsefirst.data;
   
-        const response = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id: dataf.id }, {
+        const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id: dataf.id }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -98,7 +98,7 @@ function Sprofile() {
           const fetchPastClubImages = async (pastClubs) => {
             return Promise.all(
               pastClubs.map(async (clubId) => {
-                const clubResponse = await axios.post('http://localhost:5000/api/v1/club/retrieve', { id: clubId.club }, {
+                const clubResponse = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/retrieve', { id: clubId.club }, {
                   headers: {
                     Authorization: `Bearer ${token}`,
                   },
@@ -143,7 +143,7 @@ function Sprofile() {
     try {
       setVideoLoading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/v1/player/get-video/${userId}`, {
+      const response = await axios.get(`https://sportconnect-khom.onrender.com/api/v1/player/get-video/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

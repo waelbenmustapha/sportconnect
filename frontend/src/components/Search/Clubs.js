@@ -8,7 +8,7 @@ function Clubs() {
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/club/getclubssearch');
+        const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/club/getclubssearch');
         setClubs(response.data.clubs);
       } catch (error) {
         console.error('Error fetching clubs:', error);
@@ -43,7 +43,7 @@ function Clubs() {
                   <img
                   onClick={()=>{navigate("/pprofile",{state:{email:club.leader.email}})}}
 
-                    src={`http://localhost:5000${club.leader.profileImageUrl}`}
+                    src={`https://sportconnect-khom.onrender.com${club.leader.profileImageUrl}`}
                     alt={`${club.leader.fullName} profile`}
                     style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }}
                   />

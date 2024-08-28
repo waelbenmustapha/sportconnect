@@ -9,7 +9,7 @@ function Recruiters() {
   useEffect(() => {
     const fetchRecruiters = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/recruiter/getRecruitersSearch');
+        const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/recruiter/getRecruitersSearch');
         setRecruiters(response.data.users);
       } catch (error) {
         console.error('Error fetching recruiters:', error);
@@ -53,7 +53,7 @@ function Recruiters() {
               <img
               onClick={()=>{navigate("/pprofile",{state:{email:recruiter.email}})}}
 
-                src={`http://localhost:5000${recruiter.profileImageUrl}`}
+                src={`https://sportconnect-khom.onrender.com${recruiter.profileImageUrl}`}
                 alt={`${recruiter.fullName} profile`}
                 style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }}
               />

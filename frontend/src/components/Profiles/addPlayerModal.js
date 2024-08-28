@@ -40,7 +40,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.get('http://localhost:5000/api/v1/player/getplayerssearch');
+      const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/player/getplayerssearch');
       setPlayerss(response.data.users);
     } catch (error) {
       console.error('Error fetching players:', error);
@@ -53,7 +53,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
   const fetchPlayerImage = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id }, {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -109,7 +109,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
     formData.append("image", selectedFile);
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/v1/user/upload-image/${id}`, formData, {
+      const response = await axios.post(`https://sportconnect-khom.onrender.com/api/v1/user/upload-image/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -129,7 +129,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
       let result=null;  
       const token = localStorage.getItem('token');
 
-      const responses = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id:localStorage.getItem('id') }, {
+      const responses = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id:localStorage.getItem('id') }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -154,7 +154,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
         }
       };
 
-      const response = await axios.post('http://localhost:5000/api/v1/club/add-player', dataToSend, {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/add-player', dataToSend, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

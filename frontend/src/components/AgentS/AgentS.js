@@ -54,7 +54,7 @@ const AgentS = () => {
     const fetchClubs = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/v1/club/getagentclubs', {
+        const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/club/getagentclubs', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ const AgentS = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post('http://localhost:5000/api/v1/agent/addagent', values, {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/agent/addagent', values, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

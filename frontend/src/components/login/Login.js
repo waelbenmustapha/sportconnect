@@ -25,7 +25,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/user/login', values);
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/login', values);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('id',response.data.id);
       setId(response.data.id)

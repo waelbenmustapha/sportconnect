@@ -126,7 +126,7 @@ function Profile() {
   const fetchVideo = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/v1/player/get-video/${id}`, {
+      const response = await axios.get(`https://sportconnect-khom.onrender.com/api/v1/player/get-video/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -148,7 +148,7 @@ function Profile() {
         return;
       }
 
-      const response = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id }, {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -169,7 +169,7 @@ function Profile() {
         const fetchPastClubImages = async (pastClubs) => {
           return Promise.all(
             pastClubs.map(async (pastClub) => {
-              const clubResponse = await axios.post('http://localhost:5000/api/v1/club/retrieve', { id: pastClub.club }, {
+              const clubResponse = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/retrieve', { id: pastClub.club }, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -231,7 +231,7 @@ function Profile() {
     formData.append("image", selectedFileP);
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/v1/user/upload-image/${id}`, formData, {
+      const response = await axios.post(`https://sportconnect-khom.onrender.com/api/v1/user/upload-image/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -254,7 +254,7 @@ function Profile() {
       setLoading(true);
       const token = localStorage.getItem('token');
 
-      const responses = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id }, {
+      const responses = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -272,7 +272,7 @@ function Profile() {
           clubId=data.club._id;
         }
         console.log(clubId);
-        const response = await axios.post('http://localhost:5000/api/v1/club/club-players', 
+        const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/club-players', 
           { clubId }, 
           {
             headers: {
@@ -297,10 +297,10 @@ function Profile() {
     try {
       const token = localStorage.getItem('token');
       const [playersResponse, recruitersResponse] = await Promise.all([
-        axios.get('http://localhost:5000/api/v1/player/getplayerssearch', {
+        axios.get('https://sportconnect-khom.onrender.com/api/v1/player/getplayerssearch', {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get('http://localhost:5000/api/v1/recruiter/getRecruitersSearch', {
+        axios.get('https://sportconnect-khom.onrender.com/api/v1/recruiter/getRecruitersSearch', {
           headers: { Authorization: `Bearer ${token}` },
         })
       ]);
@@ -336,7 +336,7 @@ function Profile() {
       }
 
       const response = await axios.post(
-        'http://localhost:5000/api/v1/club/update-club', 
+        'https://sportconnect-khom.onrender.com/api/v1/club/update-club', 
         { userId: id, clubId },
         {
           headers: {
@@ -345,7 +345,7 @@ function Profile() {
         }
       );
   
-      const responses = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id }, {
+      const responses = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -442,7 +442,7 @@ function Profile() {
     };
     const handleSave = async () => {
       try {
-        const response = await axios.put('http://localhost:5000/api/v1/club/update-player', {
+        const response = await axios.put('https://sportconnect-khom.onrender.com/api/v1/club/update-player', {
           playerId: player._id,
           updatedData: editedPlayer
         });
@@ -543,11 +543,11 @@ function Profile() {
   };
 
 
-  const BACKEND_URL = 'http://localhost:5000';
+  const BACKEND_URL = 'https://sportconnect-khom.onrender.com';
   const handleRemovePlayerAgent = async (playerId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/v1/agent/removePlayer', 
+      await axios.post('https://sportconnect-khom.onrender.com/api/v1/agent/removePlayer', 
         { agentId: userData.agent.agentId, playerId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -560,7 +560,7 @@ function Profile() {
   const handleRemoveRecruiterAgent = async (recruiterId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/v1/agent/removeRecruiter', 
+      await axios.post('https://sportconnect-khom.onrender.com/api/v1/agent/removeRecruiter', 
         { agentId: userData.agent.agentId, recruiterId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -578,7 +578,7 @@ function Profile() {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/v1/player/upload-video/${id}`, formData, {
+      await axios.post(`https://sportconnect-khom.onrender.com/api/v1/player/upload-video/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -596,7 +596,7 @@ function Profile() {
     formData.append("image", file);
     const id=localStorage.getItem('id')
     try {
-      await axios.post(`http://localhost:5000/api/v1/user/upload-image/${id}`, formData, {
+      await axios.post(`https://sportconnect-khom.onrender.com/api/v1/user/upload-image/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -614,7 +614,7 @@ function Profile() {
     formData.append("image", file);
 
     try {
-      await axios.post(`http://localhost:5000/api/v1/user/upload-background-image/${id}`, formData, {
+      await axios.post(`https://sportconnect-khom.onrender.com/api/v1/user/upload-background-image/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -637,7 +637,7 @@ function Profile() {
         return;
       }
   
-      const response = await axios.get('http://localhost:5000/api/v1/club/all', {
+      const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/club/all', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -666,7 +666,7 @@ function Profile() {
         return;
       }
   
-      const response = await axios.get('http://localhost:5000/api/v1/club/all', {
+      const response = await axios.get('https://sportconnect-khom.onrender.com/api/v1/club/all', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -696,7 +696,7 @@ function Profile() {
         return;
       }
   
-      const response = await axios.delete('http://localhost:5000/api/v1/user/deleteuser', {
+      const response = await axios.delete('https://sportconnect-khom.onrender.com/api/v1/user/deleteuser', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -748,7 +748,7 @@ function Profile() {
     console.log(userData)
 
     try {
-      await axios.post('http://localhost:5000/api/v1/club/remove-player-from-club', { clubId, playerId });
+      await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/remove-player-from-club', { clubId, playerId });
       fetchClubPlayers()
     } catch (error) {
       console.error("Error removing player:", error);
@@ -765,7 +765,7 @@ function Profile() {
       }
   
       const response = await axios.post(
-        'http://localhost:5000/api/v1/club/add-past-club', 
+        'https://sportconnect-khom.onrender.com/api/v1/club/add-past-club', 
         { userId: id, clubId: selectedClubId, year },
         {
           headers: {
@@ -852,7 +852,7 @@ function Profile() {
   const handleAddPlayer = async (playerId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/v1/agent/addPlayer', 
+      await axios.post('https://sportconnect-khom.onrender.com/api/v1/agent/addPlayer', 
         { agentId: id, playerId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -868,7 +868,7 @@ function Profile() {
     try {
       const recruiterId=recruiterIdd.recruiter.id;
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/v1/agent/addRecruiter', 
+      await axios.post('https://sportconnect-khom.onrender.com/api/v1/agent/addRecruiter', 
         { agentId: id, recruiterId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -899,7 +899,7 @@ function Profile() {
       }
   
       const response = await axios.post(
-        'http://localhost:5000/api/v1/club/update-past-club',
+        'https://sportconnect-khom.onrender.com/api/v1/club/update-past-club',
         {
           userId: id,
           oldClubId: selectedPastClubForEdit.id,
@@ -1139,7 +1139,7 @@ function Profile() {
       }
   
       const response = await axios.put(
-        'http://localhost:5000/api/v1/user/update-user-info', 
+        'https://sportconnect-khom.onrender.com/api/v1/user/update-user-info', 
         dataToUpdate,
         {
           headers: {
@@ -1482,7 +1482,7 @@ function Profile() {
       setLoading(true);
       const token = localStorage.getItem('token');
 
-      const responses = await axios.post('http://localhost:5000/api/v1/user/retrieve', { id }, {
+      const responses = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -1494,7 +1494,7 @@ function Profile() {
       if (data.club){
         const clubId=data.club._doc._id;
         console.log(clubId)
-      const response = await axios.post('http://localhost:5000/api/v1/club/add-player', {
+      const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/add-player', {
         clubId:clubId,
         playerData,
       }, {
