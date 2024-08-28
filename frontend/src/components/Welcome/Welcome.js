@@ -81,7 +81,7 @@ const Welcome = () => {
         <div className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
           <div 
             className="h-80 bg-cover bg-center relative"
-            style={{ backgroundImage: `url('/assets/bgmain.jpg')` }}
+            style={{ backgroundImage: `url('bgmain.jpg')` }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
               <h1 className="text-4xl font-bold mb-4 text-white">CONNECT WITH CLUBS DIRECTLY</h1>
@@ -103,7 +103,7 @@ const Welcome = () => {
                   className="bg-gray-700 rounded-lg p-4 shadow-md text-center"
                 >
                   <img
-                    src={`/assets/${category.toLowerCase()}.png`}
+                    src={`${category.toLowerCase()}.png`}
                     alt={category}
                     className="w-full h-32 object-cover rounded mb-4"
                   />

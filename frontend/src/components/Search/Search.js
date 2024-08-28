@@ -127,15 +127,15 @@ const Searching = () => {
   const getBackgroundImage = (type) => {
     switch (type) {
       case 'Player':
-        return '/assets/player.png';
+        return 'player.png';
       case 'Club':
-        return '/assets/club.png';
+        return '/club.png';
       case 'Agent':
-        return '/assets/agent.png';
+        return '/agent.png';
       case 'Recruiter':
-        return '/assets/coach.png';
+        return '/coach.png';
       default:
-        return '/assets/player.png';
+        return 'player.png';
     }
   };
   const getProfileImage = (result) => {

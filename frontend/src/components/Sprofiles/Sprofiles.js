@@ -262,7 +262,7 @@ function Sprofile() {
             <div className="absolute -top-20 left-8">
               <div 
                 className="w-40 h-40 rounded-full bg-cover bg-center border-4 border-gray-800 shadow-lg"
-                style={{ backgroundImage: `url(${profileImage || (userData.player ? '/assets/player.png' : userData.agent ? '/assets/agent.png' : userData.recruiter?'/assets/coach.png':userData.club?'/assets/club.png':null)})` }}
+                style={{ backgroundImage: `url(${profileImage || (userData.player ? 'player.png' : userData.agent ? '/agent.png' : userData.recruiter?'/coach.png':userData.club?'/club.png':null)})` }}
               />
             </div>
   
@@ -339,7 +339,7 @@ function Sprofile() {
                   <div className="bg-gray-700 rounded-lg p-6 shadow-md flex items-center space-x-6">
                     <div 
                       className="w-24 h-24 rounded-full bg-cover bg-center shadow-md"
-                      style={{ backgroundImage: `url(${clubLeaderProfileImage || '/assets/club.png'})` }}
+                      style={{ backgroundImage: `url(${clubLeaderProfileImage || '/club.png'})` }}
                       onClick={() => navigate('/pprofile', {state: {email: userData.email}})}
                     />
                     <div>
@@ -366,7 +366,7 @@ function Sprofile() {
 
                           <div 
                             className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                            style={{ backgroundImage: `url(${club.image || '/assets/club.png'})` }}
+                            style={{ backgroundImage: `url(${club.image || '/club.png'})` }}
                             onClick={() => navigate('/pprofile', {state: {email: club.email}})}
                           />
 <h3 className="mt-2 text-sm font-medium text-gray-300">
@@ -389,7 +389,7 @@ function Sprofile() {
                       <div key={index} className="text-center">
                         <div 
                           className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                          style={{ backgroundImage: `url(${player.profileImage || '/assets/player.png'})` }}
+                          style={{ backgroundImage: `url(${player.profileImage || 'player.png'})` }}
                           onClick={() => navigate("/pprofile", { state: { email: player.email } })}
                         />
                         <h3 className="mt-2 text-sm font-medium text-gray-300">{player.fullName}</h3>
@@ -405,7 +405,7 @@ function Sprofile() {
                       <div key={index} className="text-center">
                         <div 
                           className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                          style={{ backgroundImage: `url(${recruiter.profileImage || '/assets/coach.png'})` }}
+                          style={{ backgroundImage: `url(${recruiter.profileImage || '/coach.png'})` }}
                           onClick={() => navigate("/pprofile", { state: { email: recruiter.email } })}
                         />
                         <h3 className="mt-2 text-sm font-medium text-gray-300">{recruiter.fullName}</h3>
@@ -454,7 +454,7 @@ function Sprofile() {
                         <div 
                           onClick={()=>{navigate('/pprofile',{state:{email:player.user.email}})}}
                           className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                          style={{ backgroundImage: `url(${player.profileImage || '/assets/player.png'})` }}
+                          style={{ backgroundImage: `url(${player.profileImage || 'player.png'})` }}
                         />
                         <h3 className="mt-2 text-sm font-medium text-gray-300">{player.Name}</h3>
                       </div>
