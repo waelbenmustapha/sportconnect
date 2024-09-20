@@ -707,6 +707,7 @@ function Profile() {
       if (response.status === 200) {
         localStorage.removeItem('id');
         localStorage.removeItem('token');
+        window.location.reload();
         navigate('/login');
       }
     } catch (error) {
@@ -1565,7 +1566,7 @@ return (
               <label htmlFor="profile-image-upload" className="relative">
                 <div 
                   className="w-40 h-40 rounded-full bg-cover bg-center border-4 border-gray-800 shadow-lg"
-                  style={{ backgroundImage: `url(${profileImage || (userData.player ? 'player.png' : userData.agent ? '/agent.png' : userData.recruiter?'/coach.png':userData.club?'/club.png':null)})` }}
+                  style={{ backgroundImage: `url(${profileImage || (userData.player ? '/assets/PLAYER.png' : userData.agent ? '/assets/AGENT.png' : userData.recruiter?'/assets/COACH.png':userData.club?'/assets/CLUB.png':null)})` }}
                   >
                   <div className="absolute bottom-0 right-0 bg-gray-800 rounded-full p-2 cursor-pointer shadow-md hover:bg-gray-700 transition duration-200">
                     <Icon path={mdiCamera} size={0.8} className="text-white" />
@@ -1657,7 +1658,7 @@ return (
         <div className="bg-gray-700 rounded-lg p-6 shadow-md flex items-center space-x-6">
           <div 
             className="w-24 h-24 rounded-full bg-cover bg-center shadow-md"
-            style={{ backgroundImage: `url(${currentClub.image || '/club.png'})` }}
+            style={{ backgroundImage: `url(${currentClub.image || '/assets/CLUB.png'})` }}
             onClick={() => navigate("/pprofile", { state: { email: currentClub.email } })}
           ></div>
           <div>
@@ -1680,7 +1681,7 @@ return (
       <div className="bg-gray-700 rounded-lg p-6 shadow-md flex items-center space-x-6 mt-4">
         <div 
           className="w-24 h-24 rounded-full bg-cover bg-center shadow-md"
-          style={{ backgroundImage: `url(${clubLeaderProfileImage || '/club.png'})` }}
+          style={{ backgroundImage: `url(${clubLeaderProfileImage || '/assets/CLUB.png'})` }}
           onClick={() => navigate("/pprofile", { state: { email: userData.player ? userData.player.currentClub.email : userData.email } })}
         ></div>
         <div>
@@ -1703,7 +1704,7 @@ return (
                 <div key={index} className="text-center relative">
                   <div 
                     className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                    style={{ backgroundImage: `url(${club.image || '/club.png'})` }}
+                    style={{ backgroundImage: `url(${club.image || '/assets/CLUB.png'})` }}
                     onClick={() => navigate("/pprofile", { state: { email: club.email } })}
                   >
                     <button
@@ -1742,7 +1743,7 @@ return (
               <div key={index} className="text-center relative">
                 <div 
                   className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
-                  style={{ backgroundImage: `url(${player.profileImage || 'player.png'})` }}
+                  style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
                   onClick={() => navigate("/pprofile", { state: { email: player.email } })}
                 >
                   <button
@@ -1778,7 +1779,7 @@ return (
               <div key={index} className="text-center relative">
                 <div 
                   className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                  style={{ backgroundImage: `url(${recruiter.profileImage || '/coach.png'})` }}
+                  style={{ backgroundImage: `url(${recruiter?.profileImage || '/assets/COACH.png'})` }}
                   onClick={() => navigate("/pprofile", { state: { email: recruiter.email } })}
                 >
                   <button
@@ -1791,7 +1792,7 @@ return (
                     <Icon path={mdiClose} size={0.8} />
                   </button>
                 </div>
-                <h3 className="mt-2 text-sm font-medium text-gray-300">{recruiter.fullName}</h3>
+                <h3 className="mt-2 text-sm font-medium text-gray-300">{recruiter?.fullName}</h3>
               </div>
             ))}
         <div 
@@ -1897,7 +1898,7 @@ return (
           <div key={index} className="text-center relative">
             <div 
               className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
-              style={{ backgroundImage: `url(${player.profileImage || 'player.png'})` }}
+              style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
               onClick={() => handlePlayerClick(player)}
             >
               <button
@@ -1920,15 +1921,7 @@ return (
         <Icon path={mdiPlus} size={2} className="text-gray-400" />
       </div>
     </div>
-    <div className="mt-6">
-        <button
-          onClick={()=>{deleteAccount(userData)}}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center"
-        >
-          <Icon path={mdiCancel} size={1} className="mr-2" />
-          Delete Account
-        </button>
-      </div>
+
     {/* Add Player Modal */}
     <AddPlayerModal 
   isOpen={isAddPlayerModalClubOpen} 
@@ -1989,7 +1982,15 @@ return (
 
 
 
-
+<div className="mt-6">
+        <button
+          onClick={()=>{deleteAccount(userData)}}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center"
+        >
+          <Icon path={mdiCancel} size={1} className="mr-2" />
+          Delete Account
+        </button>
+      </div>
     </motion.div>
     <Modal
         isOpen={isEditPastClubModalOpen}
@@ -2169,6 +2170,7 @@ return (
     ))}
   </ul>
 </Modal>
+
   </div>
 );
 }
