@@ -26,7 +26,7 @@ export const getVideo = async (req, res) => {
         }
 
         if (!videoPath) {
-            return res.status(404).json({ message: "Video file not found" });
+            return res.status(200).json({ message: "Video file not found" });
         }
 
         // Set appropriate headers

@@ -12,9 +12,9 @@ export default async (req, res) => {
     if (!Name || !age || !nationality || !weight || !height || !dominantFoot || !Category || !position) {
       return res.status(400).json({ message: "Please provide all required fields for the player" });
     }
-
+    console.log(age);
     // Find the club
-    const club = await Club.findById(clubId);
+    const club = await Club.findOne({ contact: clubId });
     if (!club) {
       return res.status(404).json({ message: "Club not found:" });
     }
@@ -33,7 +33,7 @@ export default async (req, res) => {
     // Create a new player
     const player = new clubPlayer({
       Name,
-      age: parseInt(age),
+      age:age,
       nationality,
       user:userplayer,
       weight: parseFloat(weight),

@@ -7,7 +7,6 @@ export default async (req, res) => {
     if (!playerId || !updatedData) {
       return res.status(400).json({ message: "Player ID and updated data are required" });
     }
-
     // Find the player
     const player = await clubPlayer.findById(playerId);
 

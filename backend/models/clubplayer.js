@@ -20,6 +20,9 @@ const clubplayerSchema = new Schema({
     type: Number,
     required: true,
   },
+  age:{
+    type:Number,
+  },
   height: {
     type: Number,
     required: true,

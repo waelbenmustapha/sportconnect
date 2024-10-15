@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@mdi/react';
 import { mdiEmoticon, mdiSoccer, mdiAccountGroup, mdiBriefcase, mdiAccountMultiplePlus } from '@mdi/js';
 import { useAppContext } from '../../App';
+import { useTranslation } from 'react-i18next';
 
 const ProfileBox = ({ icon, title, description, onClick }) => (
   <motion.div
@@ -25,32 +26,33 @@ function Welcomepick() {
   const location = useLocation();
   const navigate = useNavigate();
   const id=localStorage.getItem('id');
+  const { t } = useTranslation();
   const { fullName } = location.state || {};
   const {username,setUserName}=useAppContext();
   setUserName(fullName);
   const profiles = [
     {
       icon: mdiSoccer,
-      title: "Player",
-      description: "Are you a soccer player? Choose this profile.",
+      title: t('player'),
+      description: t('isplayer'),
       path: '/playerlog'
     },
     {
       icon: mdiAccountGroup,
       title: "Club",
-      description: "Are you a leader or a club coach? Choose this profile.",
+      description: t('isclub'),
       path: '/clublog'
     },
     {
       icon: mdiBriefcase,
       title: "Agent",
-      description: "Are you a club agent? Choose this profile.",
+      description: t('isagent'),
       path: '/agentlog'
     },
     {
       icon: mdiAccountMultiplePlus,
-      title: "Coach",
-      description: "Are you a Coach? Choose this profile.",
+      title: t('coach'),
+      description: t('iscoach'),
       path: '/recruiterlog'
     }
   ];
@@ -64,7 +66,7 @@ function Welcomepick() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Welcome, {fullName}
+          {t('welcome')}, {fullName}
           <motion.span 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -81,7 +83,7 @@ function Welcomepick() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          Begin by selecting your profile type
+          {t('beginby')}
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

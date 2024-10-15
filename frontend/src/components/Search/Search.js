@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Search, X, User, LogOut, Cpu } from 'lucide-react';
+import { Search, X, User, LogOut, Menu } from 'lucide-react';
 import { useAppContext } from '../../App';
+import LanguageSwitcher from '../Profiles/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const Searching = () => {
   const [players, setPlayers] = useState([]);
@@ -13,9 +15,11 @@ const Searching = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [user,setUser]=useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const navigate = useNavigate();
   const { username } = useAppContext();
   const searchRef = useRef(null);
+  const { t }=useTranslation();
   const {id,setId} = useAppContext();
   useEffect(() => {
     const fetchData = async () => {
@@ -149,112 +153,105 @@ const Searching = () => {
   };
   return (
     <header className="bg-gradient-to-r from-gray-900 to-black shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <span className="text-2xl font-bold text-white tracking-wide cursor-pointer" onClick={()=>navigate("/welcome")}>SportConnect</span>
-        
-        <div className="relative flex-grow max-w-xl mx-auto" ref={searchRef}>
-          <input
-            type="text"
-            placeholder="Search players, clubs, agents, or recruiters"
-            className="w-full py-3 px-5 pr-12 rounded-full text-white bg-gray-800 border-2 border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out placeholder-gray-500"
-            value={searchTerm}
-            onChange={handleInputChange}
-            onFocus={() => setShowDropdown(searchResults.length > 0)}
-          />
-          <button
-            onClick={handleSearch}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition duration-150 ease-in-out"
-          >
-            <Search size={20} />
-          </button>
-          {searchTerm && (
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setSearchResults([]);
-                setShowDropdown(false);
-              }}
-              className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition duration-150 ease-in-out"
-            >
-              <X size={20} />
-            </button>
-          )}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex flex-wrap justify-between items-center">
+          <span className="text-2xl font-bold text-white tracking-wide cursor-pointer mb-4 sm:mb-0" onClick={() => navigate("/welcome")}>SportConnect</span>
           
-          {showDropdown && searchResults.length > 0 && (
-  <div className="absolute z-10 w-full bg-gray-800 mt-2 rounded-lg shadow-xl max-h-80 overflow-y-auto">
-    {searchResults.map((result, index) => (
-      <div 
-        key={index}
-        className="p-3 hover:bg-gray-700 cursor-pointer flex items-center transition duration-150 ease-in-out"
-        onClick={() => handleImageClick(result)}
-      >
-<img
-  src={result.profileImage?.startsWith('data:') 
-    ? result.profileImage 
-    : `https://sportconnect-khom.onrender.com${result.profileImage || result.profileImageUrl || result.contact?.profileImageUrl}`
-  }
-  alt={result.fullName || result.clubName}
-  className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-gray-600"
-  onError={(e) => {
-    e.target.onerror = null;
-    e.target.src = getProfileImage(result);
-  }}
-/>
-        <div>
-        <p className="font-semibold text-white">{result.fullName || result.clubName}</p>
-
-<p className="text-sm text-gray-400">
-            {result.type === 'Club' ? 'Club' : 
-             result.type === 'Agent' ? 'Agent' :
-             result.type === 'Recruiter' ? 'Coach' : 'Player'}
-          </p>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
-        </div>
-  
-        <nav>
-          <ul className="flex items-center space-x-6">
+          <div className="flex items-center space-x-4 mb-4 sm:mb-0">
             {(user && id) ? (
               <>
-                <li>
-                  <button 
-                    onClick={() => {
-                      localStorage.removeItem('id');
-                      localStorage.removeItem('token');
-                      setId(null)
-                      navigate("/login");
-                    }} 
-                    className="flex items-center text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out"
-                  >
-                    <LogOut size={18} className="mr-2" />
-                    <span className="font-medium">Logout</span>
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => navigate("/profile")} 
-                    className="flex items-center text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out"
-                  >
-                    <User size={18} className="mr-2" />
-                    <span className="font-medium">{user.fullName}</span>
-                  </button>
-                </li>
+                <button 
+                  onClick={() => {
+                    localStorage.removeItem('id');
+                    localStorage.removeItem('token');
+                    setId(null)
+                    navigate("/login");
+                  }} 
+                  className="flex items-center text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out"
+                >
+                  <LogOut size={18} className="mr-2" />
+                  <span className="font-medium hidden sm:inline">{t('logout')}</span>
+                </button>
+                <button 
+                  onClick={() => navigate("/profile")} 
+                  className="flex items-center text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out"
+                >
+                  <User size={18} className="mr-2" />
+                  <span className="font-medium hidden sm:inline">{user.fullName}</span>
+                </button>
               </>
             ) : (
-              <li>
-                <button 
-                  onClick={() => navigate("/login")} 
-                  className="bg-gray-800 text-white px-4 py-2 rounded-full font-medium hover:bg-gray-700 transition duration-150 ease-in-out"
-                >
-                  Login
-                </button>
-              </li>
+              <button 
+                onClick={() => navigate("/login")} 
+                className="bg-gray-800 text-white px-4 py-2 rounded-full font-medium hover:bg-gray-700 transition duration-150 ease-in-out"
+              >
+                {t('login')}
+              </button>
             )}
-          </ul>
-        </nav>
+            <LanguageSwitcher />
+          </div>
+        </div>
+        
+        <div className="w-full mt-4" ref={searchRef}>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder={t('search')}
+              className="w-full py-3 px-5 pr-12 rounded-full text-white bg-gray-800 border-2 border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out placeholder-gray-500"
+              value={searchTerm}
+              onChange={handleInputChange}
+              onFocus={() => setShowDropdown(searchResults.length > 0)}
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition duration-150 ease-in-out"
+            >
+              <Search size={20} />
+            </button>
+            {searchTerm && (
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setSearchResults([]);
+                  setShowDropdown(false);
+                }}
+                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition duration-150 ease-in-out"
+              >
+                <X size={20} />
+              </button>
+            )}
+          </div>
+          
+          {showDropdown && searchResults.length > 0 && (
+            <div className="absolute z-10 w-full bg-gray-800 mt-2 rounded-lg shadow-xl max-h-80 overflow-y-auto">
+              {searchResults.map((result, index) => (
+                <div 
+                  key={index}
+                  className="p-3 hover:bg-gray-700 cursor-pointer flex items-center transition duration-150 ease-in-out"
+                  onClick={() => handleImageClick(result)}
+                >
+                  <img
+                    src={getProfileImage(result)}
+                    alt={result.fullName || result.clubName}
+                    className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-gray-600"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = getBackgroundImage(result.type);
+                    }}
+                  />
+                  <div>
+                    <p className="font-semibold text-white">{result.fullName || result.clubName}</p>
+                    <p className="text-sm text-gray-400">
+                      {result.type === 'Club' ? 'Club' : 
+                       result.type === 'Agent' ? 'Agent' :
+                       result.type === 'Recruiter' ? 'Coach' : 'Player'}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

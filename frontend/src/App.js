@@ -19,7 +19,8 @@ import Sprofiles from "./components/Sprofiles/Sprofiles";
 import Welcomepick from "./components/login/Welcomepick";
 import Footer from "./components/Footer";
 import Searching from "./components/Search/Search";
-
+import './i18n';
+import CategoryListPage from "./components/Welcome/CategoryListPage";
 const AppContext = createContext();
 
 export const useAppContext = () => useContext(AppContext);
@@ -105,6 +106,7 @@ const App = () => {
           <Route path="/playerlog" element={<PlayerS />} />
           <Route path="/agentlog" element={<AgentS />} />
           <Route path="/clublog" element={<ClubS />} />
+          <Route path="/list" element={<CategoryListPage/>}/>
           <Route path="/recruiterlog" element={<Recruiter />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/search" element={<Search />} />

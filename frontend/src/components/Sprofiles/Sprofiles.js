@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { mdiChevronLeft, mdiSoccer, mdiTshirtCrew, mdiCalendar, mdiEarth, mdiVideo, mdiAccountOutline, mdiScale, mdiRuler, mdiShoeSneaker, mdiPlayCircle } from "@mdi/js";
 import { useAppContext } from "../../App"; // Make sure this import is correct for your project structure
+import { useTranslation } from "react-i18next";
 
 function Sprofile() {
   const [userData, setUserData] = useState(null);
@@ -21,7 +22,7 @@ function Sprofile() {
   const [error,setError]=useState();
   const [loading,setLoading]=useState();
   const [videoLoading, setVideoLoading] = useState(false);
-
+  const {t}=useTranslation();
 
   const [players,setPlayers]=useState([]);
   const fetchClubPlayers = async () => {
@@ -193,8 +194,11 @@ function Sprofile() {
       key !== "_id" && 
       key !== "__v" && 
       key !== "pastClubs" && 
+      key !== "philosophy" &&
+      key !== "description" &&
       key !== "players" && 
       key !== "services" && 
+      key !== 'currentClub' &&
       key !== "agentId" &&
       key !== "id" &&
       key !== "recruiters" && 
@@ -205,15 +209,18 @@ function Sprofile() {
         return [key, value.email];
       }
       if (key === 'dateOfBirth' || key === 'birthday' || key === 'Birthday') {
-        return ['birthday', formatDate(value)];
+        return [t('birthday'), formatDate(value)];
       }
       if (key === 'sports') {
         return [key, formatSports(value)];
       }
-      if (key === 'currentClub') {
-        return [key, formatCurrentClub(value)];
+      if (key==='gender'){
+        return [t('gender'),t(value)]
       }
-      return [key, typeof value === 'object' ? JSON.stringify(value) : value];
+      if (key==='dominantFoot'){
+        return [t('df'),t(value)]
+      }
+      return [t(key), typeof value === 'object' ? JSON.stringify(value) : value];
     });
 
     const getClubYear = (club) => {
@@ -235,7 +242,7 @@ function Sprofile() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="max-w-6xl mx-auto py-8 px-4"
+        className="max-w-6xl mx-auto py-4 sm:py-8 px-4"
       >
         <button
           onClick={() => {
@@ -249,33 +256,33 @@ function Sprofile() {
           className="mb-4 flex items-center text-gray-400 hover:text-white transition duration-200"
         >
           <Icon path={mdiChevronLeft} size={1} />
-          <span className="ml-2">Back</span>
+          <span className="ml-2">{t('back')}</span>
         </button>
   
         <div className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
           <div 
-            className="h-80 bg-cover bg-center relative"
+            className="h-40 sm:h-60 md:h-80 bg-cover bg-center relative"
             style={{ backgroundImage: `url(${backgroundImage || '/football-stadium-background.jpg'})` }}
           />
   
-          <div className="px-8 py-6 relative">
-            <div className="absolute -top-20 left-8">
+          <div className="px-4 sm:px-8 py-6 relative">
+            <div className="absolute -top-16 sm:-top-20 left-4 sm:left-8">
               <div 
-                className="w-40 h-40 rounded-full bg-cover bg-center border-4 border-gray-800 shadow-lg"
+                className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-cover bg-center border-4 border-gray-800 shadow-lg"
                 style={{ backgroundImage: `url(${profileImage || (userData.player ? '/assets/PLAYER.png' : userData.agent ? '/assets/AGENT.png' : userData.recruiter?'/assets/COACH.png':userData.club?'/assets/CLUB.png':null)})` }}
               />
             </div>
   
-            <div className="mt-24">
-              <h1 className="text-4xl font-bold text-white">{userData.fullName}</h1>
-              <p className="text-xl text-gray-400 mt-2">{userData.email}</p>
+            <div className="mt-20 sm:mt-24">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{userData.fullName}</h1>
+              <p className="text-lg sm:text-xl text-gray-400 mt-2">{userData.email}</p>
             </div>
   
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {userData.role !== 'club' && filteredRoleData
                 .filter(([key]) => key !== 'description' && key !== 'philosophy' && key !== 'services')
                 .map(([key, value], index) => (
-                  <div key={index} className="bg-gray-700 rounded-lg p-4 shadow-md flex items-center">
+                  <div key={index} className="bg-gray-700 rounded-lg p-3 sm:p-4 shadow-md flex items-center">
                     <Icon path={getIconForKey(key)} size={1.2} className="text-blue-400 mr-3" />
                     <div>
                       <span className="font-semibold text-gray-300">{formatKey(key)}:</span>
@@ -286,23 +293,21 @@ function Sprofile() {
               }
               {userData.role === 'club' && (
                 <>
-                  <div className="bg-gray-700 rounded-lg p-4 shadow-md flex items-center">
+                  <div className="bg-gray-700 rounded-lg p-3 sm:p-4 shadow-md flex items-center">
                     <Icon path={mdiSoccer} size={1.2} className="text-blue-400 mr-3" />
                     <div>
                       <span className="font-semibold text-gray-300">Club Name:</span>
-                      <span className="ml-2 text-white">{userData.currentClubDetails?.clubName || userData.club._doc?.clubName}
-                      </span>
+                      <span className="ml-2 text-white">{userData.currentClubDetails?.clubName || userData.club._doc?.clubName}</span>
                     </div>
                   </div>
-                  <div className="bg-gray-700 rounded-lg p-4 shadow-md flex items-center">
+                  <div className="bg-gray-700 rounded-lg p-3 sm:p-4 shadow-md flex items-center">
                     <Icon path={mdiEarth} size={1.2} className="text-blue-400 mr-3" />
                     <div>
                       <span className="font-semibold text-gray-300">Country:</span>
-                      <span className="ml-2 text-white"> {userData.currentClubDetails?.country || userData.club._doc?.country}
-                      </span>
+                      <span className="ml-2 text-white">{userData.currentClubDetails?.country || userData.club._doc?.country}</span>
                     </div>
                   </div>
-                  <div className="bg-gray-700 rounded-lg p-4 shadow-md flex items-center">
+                  <div className="bg-gray-700 rounded-lg p-3 sm:p-4 shadow-md flex items-center">
                     <Icon path={mdiSoccer} size={1.2} className="text-blue-400 mr-3" />
                     <div>
                       <span className="font-semibold text-gray-300">Division:</span>
@@ -314,17 +319,17 @@ function Sprofile() {
             </div>
   
             {userData.role !== 'club' && (
-              <div className="mt-10">
-                <h2 className="text-2xl font-semibold mb-4 text-white">
-                  {userData.agent ? "Services" : userData.recruiter ? "Philosophy" : "Player Bio"}
+              <div className="mt-8 sm:mt-10">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-white">
+                  {userData.agent ? "Services" : userData.recruiter ? t('philosophy') : t('playerbio')}
                 </h2>
-                <div className="bg-gray-700 rounded-lg p-6 shadow-md">
+                <div className="bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md">
                   <p className="text-gray-300 whitespace-pre-wrap">
                     {userData.agent
-                      ? (userData.agent.services || 'No services available.')
+                      ? (userData.agent.services || t('noservice'))
                       : userData.recruiter
-                      ? (userData.recruiter.philosophy || 'No philosophy available.')
-                      : (filteredRoleData.find(([key]) => key === 'description')?.[1] || 'No description available.')}
+                      ? (userData.recruiter.philosophy || t('nophilosophy'))
+                      : (filteredRoleData.find(([key]) => key === 'description')?.[1] || t('nodesc'))}
                   </p>
                 </div>
               </div>
@@ -332,19 +337,19 @@ function Sprofile() {
   
             {userData.role !== 'club' && userData.role !== 'agent' && (
               <>
-                <div className="mt-10">
-                  <h2 className="text-2xl font-semibold mb-4 text-white">
-                    {userData.recruiter ? "Current Club:" : "Current Team:"}
+                <div className="mt-8 sm:mt-10">
+                  <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-white">
+                    {userData.recruiter ? t('currentclub')+":" : t('currentteam')+":"}
                   </h2>
-                  <div className="bg-gray-700 rounded-lg p-6 shadow-md flex items-center space-x-6">
+                  <div className="bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
                     <div 
-                      className="w-24 h-24 rounded-full bg-cover bg-center shadow-md"
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-cover bg-center shadow-md"
                       style={{ backgroundImage: `url(${clubLeaderProfileImage || '/assets/CLUB.png'})` }}
                       onClick={() => navigate('/pprofile', {state: {email: userData.email}})}
                     />
-                    <div>
-                      <h3 className="text-xl font-semibold text-white">
-                        {userData.currentClubDetails?.clubName || 'No current Club.'}
+                    <div className="text-center sm:text-left">
+                      <h3 className="text-lg sm:text-xl font-semibold text-white">
+                        {userData.currentClubDetails?.clubName || t('noclub')}
                       </h3>
                       {userData.currentClubDetails && (
                         <p className="text-gray-400 mt-1">
@@ -355,23 +360,22 @@ function Sprofile() {
                   </div>
                 </div>
   
-                <div className="mt-10">
-                  <h2 className="text-2xl font-semibold mb-4 text-white">Career History</h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div className="mt-8 sm:mt-10">
+                  <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-white">{t('careerhistory')}</h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                     {pastClubImages.length === 0 ? (
-                      <h3 className="text-xl font-semibold text-white">No Career History.</h3>
+                      <h3 className="text-lg sm:text-xl font-semibold text-white">{t('nocareer')}</h3>
                     ) : (
                       pastClubImages.map((club, index) => (
                         <div key={index} className="text-center">
-
                           <div 
-                            className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
+                            className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
                             style={{ backgroundImage: `url(${club.image || '/assets/CLUB.png'})` }}
                             onClick={() => navigate('/pprofile', {state: {email: club.email}})}
                           />
-<h3 className="mt-2 text-sm font-medium text-gray-300">
-  {club.clubName} ({getClubYear(club)})
-</h3>
+                          <h3 className="mt-2 text-xs sm:text-sm font-medium text-gray-300">
+                            {club.clubName} ({getClubYear(club)})
+                          </h3>
                         </div>
                       ))
                     )}
@@ -382,33 +386,33 @@ function Sprofile() {
   
             {userData.role === 'agent' && (
               <>
-                <div className="mt-10">
-                  <h2 className="text-2xl font-semibold mb-4 text-white">Players Represented</h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div className="mt-8 sm:mt-10">
+                  <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-white">{t('playersRepresented')}</h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                     {userData.agent.players.map((player, index) => (
                       <div key={index} className="text-center">
                         <div 
-                          className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
+                          className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
                           style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
                           onClick={() => navigate("/pprofile", { state: { email: player.email } })}
                         />
-                        <h3 className="mt-2 text-sm font-medium text-gray-300">{player.fullName}</h3>
+                        <h3 className="mt-2 text-xs sm:text-sm font-medium text-gray-300">{player.fullName}</h3>
                       </div>
                     ))}
                   </div>
                 </div>
   
-                <div className="mt-10">
-                  <h2 className="text-2xl font-semibold mb-4 text-white">Coaches Represented</h2>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div className="mt-8 sm:mt-10">
+                  <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-white">{t('coachesRepresented')}</h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                     {userData.agent.recruiters && userData.agent.recruiters.map((recruiter, index) => (
                       <div key={index} className="text-center">
                         <div 
-                          className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
+                          className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
                           style={{ backgroundImage: `url(${recruiter.profileImage || '/assets/COACH.png'})` }}
                           onClick={() => navigate("/pprofile", { state: { email: recruiter.email } })}
                         />
-                        <h3 className="mt-2 text-sm font-medium text-gray-300">{recruiter.fullName}</h3>
+                        <h3 className="mt-2 text-xs sm:text-sm font-medium text-gray-300">{recruiter.fullName}</h3>
                       </div>
                     ))}
                   </div>
@@ -416,27 +420,27 @@ function Sprofile() {
               </>
             )}
   
-  {userData.role === 'club' && userData.club && (
-              <div className="mt-10">
-                <h2 className="text-3xl font-semibold mb-6 text-white">Club Details</h2>
-                <div className="bg-gray-700 rounded-lg p-6 shadow-md space-y-6">
+            {userData.role === 'club' && userData.club && (
+              <div className="mt-8 sm:mt-10">
+                <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-white">{t('clubProfile.clubDetails')}</h2>
+                <div className="bg-gray-700 rounded-lg p-4 sm:p-6 shadow-md space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <h3 className="text-2xl font-semibold text-white mb-4">General Information</h3>
-                      <p className="text-gray-300"><span className="font-semibold">Club Name:</span> {userData.currentClubDetails?.clubName || userData.club._doc?.clubName}</p>
-                      <p className="text-gray-300"><span className="font-semibold">Address:</span> {userData.currentClubDetails?.Address || userData.club._doc?.Address}</p>
-                      <p className="text-gray-300"><span className="font-semibold">Country:</span> {userData.currentClubDetails?.country || userData.club._doc?.country}</p>
-                      <p className="text-gray-300"><span className="font-semibold">Contact Person:</span> {userData.fullName}</p>
-                      <p className="text-gray-300"><span className="font-semibold">Contact Email:</span> {userData.email}</p>
+                      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">{t('clubProfile.generalInformation')}</h3>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.clubName')}:</span> {userData.currentClubDetails?.clubName || userData.club._doc?.clubName}</p>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.address')}:</span> {userData.currentClubDetails?.Address || userData.club._doc?.Address}</p>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.country')}:</span> {userData.currentClubDetails?.country || userData.club._doc?.country}</p>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.contactPerson')}:</span> {userData.fullName}</p>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.contactEmail')}:</span> {userData.email}</p>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-semibold text-white mb-4">Club Information</h3>
-                      <p className="text-gray-300"><span className="font-semibold">Current Division:</span> {userData.currentClubDetails?.division || userData.club._doc?.division}</p>
-                      <p className="text-gray-300"><span className="font-semibold">Number of Teams:</span> {userData.currentClubDetails?.teams || userData.club._doc?.teams}</p>
-                      <p className="text-gray-300"><span className="font-semibold">Founded:</span> {userData.currentClubDetails?.dateOfCreation ? new Date(userData.currentClubDetails?.dateOfCreation ).getFullYear() : userData.club._doc?.dateOfCreation ? new Date(userData.club._doc?.dateOfCreation ).getFullYear(): 'N/A'}</p>
+                      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">{t('clubProfile.clubInformation')}</h3>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.currentDivision')}:</span> {userData.currentClubDetails?.division || userData.club._doc?.division}</p>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.numberOfTeams')}:</span> {userData.currentClubDetails?.teams || userData.club._doc?.teams}</p>
+                      <p className="text-gray-300"><span className="font-semibold">{t('clubProfile.founded')}:</span> {userData.currentClubDetails?.dateOfCreation ? new Date(userData.currentClubDetails?.dateOfCreation).getFullYear() : userData.club._doc?.dateOfCreation ? new Date(userData.club._doc?.dateOfCreation).getFullYear() : 'N/A'}</p>
                       {userData.currentClubDetails?.web && (
                         <p className="text-gray-300">
-                          <span className="font-semibold">Website:</span>{' '}
+                          <span className="font-semibold">{t('clubProfile.website')}:</span>{' '}
                           <a href={userData.currentClubDetails.web} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
                             {userData.currentClubDetails.web}
                           </a>
@@ -445,56 +449,63 @@ function Sprofile() {
                     </div>
                   </div>
                 </div>
-  
-                <h2 className="text-2xl font-semibold my-6 text-white">Team Roster</h2>
                 {userData.club.players && players.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                    {players.map((player, index) => (
-                      <div key={index} className="text-center">
-                        <div 
-                          onClick={()=>{navigate('/pprofile',{state:{email:player.user.email}})}}
-                          className="w-24 h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200"
-                          style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
-                        />
-                        <h3 className="mt-2 text-sm font-medium text-gray-300">{player.Name}</h3>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-400">No players currently in the roster.</p>
-                )}
-              </div>
-            )}
-          </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                  {players.map((player, index) => (
+                    <div key={index} className="text-center">
+                      <div 
+                        onClick={() => {
+                          if(!player.editable){
+                          navigate('/pprofile', {state: {email: player.user.email}})
+                        } }}
+                        className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-cover bg-center shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
+                        style={{ backgroundImage: `url(${player.profileImage || '/assets/PLAYER.png'})` }}
+                      />
+                      <h3 className="mt-2 text-xs sm:text-sm font-medium text-gray-300">{player.Name}</h3>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400">{t('clubProfile.noPlayers')}</p>
+              )}
+            </div>
+          )}
         </div>
-  
-        {(userData.role !== 'none' && (videoLoading || video)) && (
-  <div className="mt-10">
-    <h2 className="text-2xl font-semibold mb-4 text-white text-center">
-      {userData.player ? 'Player Video' : userData.club ? 'Club Video' : userData.agent ? 'Agent Video' : userData.recruiter ? 'Recruiter Video' : null}
-    </h2>
-    {videoLoading ? (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
       </div>
-    ) : video ? (
-      <div>
-        <video 
-          key={video} 
-          controls 
-          className="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
-        >
-          <source src={video} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    ) : null}
+
+      {(userData.role !== 'none' && (videoLoading || video)) && (
+        <div className="mt-8 sm:mt-10">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-white text-center">
+            {t(userData.player ? 'playerVideo' : 
+              userData.club ? 'clubVideo' : 
+              userData.agent ? 'agentVideo' : 
+              userData.recruiter ? 'recruiterVideo' : null)}
+          </h2>
+          {videoLoading ? (
+            <div className="flex justify-center items-center h-48 sm:h-64">
+              <div className="animate-spin rounded-full h-16 w-16 sm:h-32 sm:w-32 border-t-2 border-b-2 border-green-500"></div>
+            </div>
+          ) : video ? (
+            <div className="aspect-w-16 aspect-h-9">
+              <video 
+                key={video} 
+                controls 
+                className="w-full h-full rounded-lg shadow-lg"
+              >
+                <source src={video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          ) : null}
+        </div>
+      )}
+    </motion.div>
   </div>
-)}
-      </motion.div>
-    </div>
-  );
+);
 }
+
+
+
 function getIconForKey(key) {
   switch (key.toLowerCase()) {
     case 'position':

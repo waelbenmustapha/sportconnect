@@ -12,25 +12,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "./ClubS.css";
 import divisions from './divisions.json';
 import { useAppContext } from '../../App';
+import { useTranslation } from 'react-i18next';
 
-const validationSchema = Yup.object().shape({
-  clubName: Yup.string().required('Club name is required'),
-  Address: Yup.string().required('Address is required'),
-  country: Yup.string().required('Country is required'),
-  teams: Yup.number().required('Number of teams is required').positive().integer(),
-  web: Yup.string(),
-  division: Yup.string().required('Division is required').oneOf(['Premier League', 'EFL Championship','EFL League One','EFL League Two','La Liga','La Liga 2','Segunda División B','Tercera División',
-    'Bundesliga','Liga','Regionalliga','Serie A','Serie B','Serie C','Serie D','Ligue 1','Ligue 2','Championnat National','National 2'
-  ]),
-  dateOfCreation: Yup.date().required('Date of creation is required'),
-});
+
 
 const ClubS = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const {id,setId} = useAppContext();
   const {username,setUserName}=useAppContext();
-
+  const {t}=useTranslation();
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const token = localStorage.getItem('token');
@@ -48,30 +39,40 @@ const ClubS = () => {
       setSubmitting(false);
     }
   };
-
+  const validationSchema = Yup.object().shape({
+    clubName: Yup.string().required(t('clubreq')),
+    Address: Yup.string().required('Address '+t('required')),
+    country: Yup.string().required('Country '+t('country')),
+    teams: Yup.number().required(t('teamnumber')+" "+t('required')).positive().integer(),
+    web: Yup.string(),
+    division: Yup.string().required('Division '+t('required')).oneOf(['Premier League', 'EFL Championship','EFL League One','EFL League Two','La Liga','La Liga 2','Segunda División B','Tercera División',
+      'Bundesliga','Liga','Regionalliga','Serie A','Serie B','Serie C','Serie D','Ligue 1','Ligue 2','Championnat National','National 2'
+    ]),
+    dateOfCreation: Yup.date().required(t('creationDate')+" "+t('required')),
+  });
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-4 sm:p-6 md:p-8">
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className="absolute top-5 left-5 cursor-pointer"
-        onClick={() => navigate('/welcomepick',{state:{fullName:username}})}
+        className="absolute top-4 left-4 sm:top-5 sm:left-5 cursor-pointer"
+        onClick={() => navigate('/welcomepick', { state: { fullName: username } })}
       >
-        <Icon path={mdiArrowCollapseLeft} size={1.5} />
+        <Icon path={mdiArrowCollapseLeft} size={1} />
       </motion.div>
-
+  
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-4xl font-bold text-center mb-8"
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8"
       >
-        Add a New Club
+        {t('clubsign')}
       </motion.h1>
-
-      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-
+  
+      {error && <div className="text-red-500 text-center mb-4 text-sm sm:text-base">{error}</div>}
+  
       <Formik
         initialValues={{
           clubName: '',
@@ -86,49 +87,48 @@ const ClubS = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched, isSubmitting, setFieldValue, values, isValid, dirty }) => (
-          <Form className="max-w-md mx-auto space-y-6 bg-gray-800 p-8 rounded-lg shadow-lg">
-            <CustomField name="clubName" type="text" placeholder="Club Name" icon={mdiSoccer} />
+          <Form className="max-w-sm sm:max-w-md mx-auto space-y-4 sm:space-y-6 bg-gray-800 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
+            <CustomField name="clubName" type="text" placeholder={t('clubname')} icon={mdiSoccer} />
             <CustomField name="Address" type="text" placeholder="Address" icon={mdiHome} />
-            <CustomSelect name="country" icon={mdiFlag} placeholder="Select Country">
+            <CustomSelect name="country" icon={mdiFlag} placeholder={t('selectCountry')}>
               {countries.map((country, index) => (
                 <option key={index} value={country.name}>{country.name}</option>
               ))}
             </CustomSelect>
-            <CustomField name="teams" type="number" placeholder="Number of Teams" icon={mdiAccountGroup} />
-            <CustomField name="web" type="url" placeholder="Web Address" icon={mdiWeb} />
-            <CustomSelect style={{color:'white'}} name="division" icon={mdiDivision} placeholder="Select Division">
+            <CustomField name="teams" type="number" placeholder={t('teamnumber')} icon={mdiAccountGroup} />
+            <CustomField name="web" type="url" placeholder={t('web')} icon={mdiWeb} />
+            <CustomSelect name="division" icon={mdiDivision} placeholder={t('divisionsel')}>
               {divisions.footballDivisions.map((division, index) => (
-                <option key={index} value={division}>{division
-                }</option>
+                <option key={index} value={division}>{division}</option>
               ))}
             </CustomSelect>
             <div className="relative">
               <DatePicker
-              showYearDropdown
+                showYearDropdown
                 selected={values.dateOfCreation}
                 onChange={(date) => setFieldValue('dateOfCreation', date)}
-                placeholderText="Date of Creation"
-                className="w-full bg-transparent border border-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                placeholderText={t('creationDate')}
+                className="w-full bg-transparent border border-white rounded-md py-2 px-3 sm:px-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                 wrapperClassName="w-full"
                 popperClassName="date-picker-popper"
                 customInput={
                   <input
                     type="text"
-                    className="w-full bg-transparent border border-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-transparent border border-white rounded-md py-2 px-3 sm:px-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 }
               />
               <Icon 
                 path={mdiCalendarRange} 
-                size={1} 
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400" 
+                size={0.9} 
+                className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400" 
               />
-              <ErrorMessage name="dateOfCreation" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="dateOfCreation" component="div" className="text-red-500 text-xs sm:text-sm mt-1" />
             </div>
             <motion.button
               type="submit"
               disabled={isSubmitting || !(isValid && dirty)}
-              className={`w-full py-3 rounded-md transition duration-300 font-semibold text-lg ${
+              className={`w-full py-2 sm:py-3 rounded-md transition duration-300 font-semibold text-base sm:text-lg ${
                 isValid && dirty
                   ? 'bg-blue-600 text-white hover:bg-blue-700'
                   : 'bg-gray-500 text-gray-300 cursor-not-allowed'
@@ -136,47 +136,61 @@ const ClubS = () => {
               whileHover={{ scale: isValid && dirty ? 1.05 : 1 }}
               whileTap={{ scale: isValid && dirty ? 0.95 : 1 }}
             >
-              {isSubmitting ? 'Submitting...' : 'Add Club'}
+              {isSubmitting ? t('submitting') : t('signup')}
             </motion.button>
           </Form>
         )}
       </Formik>
     </div>
   );
-};
-
-const CustomField = ({ icon, ...props }) => (
-  <div className="relative">
-    <Field className="w-full bg-transparent border border-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500" {...props} />
-    {icon && <Icon path={icon} size={1} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />}
-    <ErrorMessage name={props.name} component="div" className="text-red-500 text-sm mt-1" />
-  </div>
-);
-
-const CustomSelect = ({ icon, children, placeholder, ...props }) => {
-  const [field, meta, helpers] = useField(props);
-  
-  return (
+}
+  const CustomField = ({ icon, ...props }) => (
     <div className="relative">
-      <select
-        {...field}
-        {...props}
-        className="w-full bg-transparent border border-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none text-white"
-        onChange={(e) => {
-          if (e.target.value !== "") {
-            helpers.setValue(e.target.value);
-          }
-        }}
-      >
-        <option value="" disabled hidden>{placeholder}</option>
-        {children}
-      </select>
-      {icon && <Icon path={icon} size={1} className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400" />}
-      {meta.touched && meta.error && (
-        <div className="text-red-500 text-sm mt-1">{meta.error}</div>
+      <Field 
+        className="w-full bg-transparent border border-white rounded-md py-2 px-3 sm:px-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        {...props} 
+      />
+      {icon && (
+        <Icon 
+          path={icon} 
+          size={0.9} 
+          className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+        />
       )}
+      <ErrorMessage name={props.name} component="div" className="text-red-500 text-xs sm:text-sm mt-1" />
     </div>
   );
-};
+  
+  const CustomSelect = ({ icon, children, placeholder, ...props }) => {
+    const [field, meta, helpers] = useField(props);
+    
+    return (
+      <div className="relative">
+        <select
+          {...field}
+          {...props}
+          className="w-full bg-transparent border border-white rounded-md py-2 px-3 sm:px-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none text-white"
+          onChange={(e) => {
+            if (e.target.value !== "") {
+              helpers.setValue(e.target.value);
+            }
+          }}
+        >
+          <option value="" disabled hidden>{placeholder}</option>
+          {children}
+        </select>
+        {icon && (
+          <Icon 
+            path={icon} 
+            size={0.9} 
+            className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400" 
+          />
+        )}
+        {meta.touched && meta.error && (
+          <div className="text-red-500 text-xs sm:text-sm mt-1">{meta.error}</div>
+        )}
+      </div>
+    );
+  };
 
 export default ClubS;

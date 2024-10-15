@@ -209,9 +209,9 @@ export default async (req, res) => {
     res.status(200).json({
       fullName: user.fullName,
       role: user.role,
-      player: user.player ? { ...user.player.toObject(), currentClub: currentClubDetails } : null,
+      player: user.player ? { ...user.player.toObject(), telephone:user.telephone,currentClub: currentClubDetails } : null,
       agent: agentData,
-      recruiter: user.recruiter ? { ...user.recruiter.toObject(), currentClub: currentClubDetails } : null,
+      recruiter: user.recruiter ? { ...user.recruiter.toObject(),telephone:user.telephone ,currentClub: currentClubDetails } : null,
       club: fullClubInfo ? {
         ...fullClubInfo,
         players: fullClubInfo.players // This now includes full user info with images for each player

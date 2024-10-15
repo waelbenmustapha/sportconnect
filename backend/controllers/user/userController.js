@@ -31,6 +31,10 @@ const updateUserInfo = async (req, res) => {
     Object.assign(user, updateData);
 
     if (user.player && playerData) {
+
+      if (playerData.telephone) {
+        user.telephone = playerData.telephone;
+      }
       if (playerData.birthday) {
         const newDate = new Date(playerData.birthday);
         if (!isNaN(newDate.getTime())) {
@@ -100,6 +104,25 @@ const updateUserInfo = async (req, res) => {
       } else {
         delete updateFields.dateOfBirth;
       }
+
+      // Handle the players field
+      if (updateFields.players) {
+        updateFields.players = updateFields.players.map(player => {
+          if (typeof player === 'string') {
+            try {
+              return new mongoose.Types.ObjectId(player);
+            } catch (err) {
+              // If it's not a valid ObjectId, it might be a stringified object
+              const parsedPlayer = JSON.parse(player);
+              return new mongoose.Types.ObjectId(parsedPlayer._id._id);
+            }
+          } else if (player._id && player._id._id) {
+            return new mongoose.Types.ObjectId(player._id._id);
+          }
+          // If it's already an ObjectId, return as is
+          return player;
+        });
+      }
   
       const updatedAgent = await Agent.findByIdAndUpdate(
         user.agent,
@@ -112,7 +135,11 @@ const updateUserInfo = async (req, res) => {
       }
     }
 
+
     if (user.recruiter && recruiterData) {
+      if (recruiterData.telephone) {
+        user.telephone = recruiterData.telephone;
+      }
       if (recruiterData.birthday) {
         const newDate = new Date(recruiterData.birthday);
         if (!isNaN(newDate.getTime())) {
@@ -132,7 +159,6 @@ const updateUserInfo = async (req, res) => {
         user.recruiter = updatedRecruiter;
       }
     }
-
     await user.save();
 
     const updatedUser = await User.findById(user._id)

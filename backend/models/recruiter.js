@@ -24,6 +24,7 @@ const recruiterSchema = new Schema({
   },
   philosophy: {
     type: String,
+    required:false,
   },
   currentClub: {
     type: Schema.Types.ObjectId,

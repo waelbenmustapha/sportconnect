@@ -17,8 +17,9 @@ export default async (req, res) => {
       clubName,
     } = req.body;
 
-    if (!gender || !dateOfBirth || !telephone || !nationality || !country || !philosophy) {
-      return res.status(400).json({ message: "Please provide all required fields" });
+    if (!gender || !dateOfBirth || !nationality || !country || !typeOfTrainer) {
+      
+      return res.status(400).json({ message: "Please provide all required fields edited" });
     }
 
     const user = await User.findById(userId);
@@ -41,14 +42,14 @@ export default async (req, res) => {
       nationality,
       country,
       typeOfTrainer,
-      philosophy,
+      philosophy: philosophy || null, 
       currentClub: club ? club._id : null,
     });
 
     await recruiter.save();
     user.role = "recruiter";
     user.recruiter = recruiter._id;
-    user.telephone = telephone;
+    user.telephone = telephone || user.telephone;  
     await user.save();
 
     res.status(201).json({ id: user._id });

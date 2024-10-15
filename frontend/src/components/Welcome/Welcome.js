@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Search } from 'lucide-react';
 import Searching from '../Search/Search';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Welcome = () => {
   const [players, setPlayers] = useState([]);
@@ -14,6 +15,7 @@ const Welcome = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +73,6 @@ const Welcome = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -80,34 +81,31 @@ const Welcome = () => {
       >
         <div className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
           <div 
-            className="h-80 bg-cover bg-center relative"
+            className="h-60 sm:h-80 bg-cover bg-center relative"
             style={{ backgroundImage: `url('bgmain.jpg')` }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
-              <h1 className="text-4xl font-bold mb-4 text-white">CONNECT WITH CLUBS DIRECTLY</h1>
-              <div className="w-full max-w-md relative">
-               
-                </div>
-              
+              <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-white text-center px-4">{t('connect')}</h1>
             </div>
           </div>
 
-          <div className="px-8 py-6">
-            <h2 className="text-2xl font-semibold mb-6 text-white">Categories</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="px-4 sm:px-8 py-6">
+            <h2 className="text-2xl font-semibold mb-6 text-white">{t('categories')}</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
               {['PLAYER', 'CLUB', 'AGENT', 'COACH'].map((category) => (
                 <motion.div
                   key={category}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={()=>navigate('/list', { state: { category:category } })}
                   className="bg-gray-700 rounded-lg p-4 shadow-md text-center"
                 >
                   <img
                     src={`${category.toLowerCase()}.png`}
                     alt={category}
-                    className="w-full h-32 object-cover rounded mb-4"
+                    className="w-full h-24 sm:h-32 object-cover rounded mb-4"
                   />
-                  <h3 className="font-semibold text-white">{category}</h3>
+                  <h3 className="font-semibold text-white text-sm sm:text-base">{t(category.toLowerCase()).toUpperCase()}</h3>
                 </motion.div>
               ))}
             </div>
@@ -117,5 +115,4 @@ const Welcome = () => {
     </div>
   );
 };
-
 export default Welcome;

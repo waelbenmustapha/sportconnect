@@ -7,11 +7,8 @@ import { Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Alert, AlertDescription } from '../ui/Alert';
 import { useAppContext } from '../../App';
+import { useTranslation } from 'react-i18next';
 
-const loginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('Required'),
-});
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +17,13 @@ const Login = () => {
   const navigate = useNavigate();
   const {id,setId} = useAppContext();
   const {username,setUserName}=useAppContext();
+  const {t}=useTranslation();
+
+  const loginSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email').required(t('required')),
+    password: Yup.string().required(t('required')),
+  });
+  
   const handleSubmit = async (values, { setSubmitting }) => {
     setIsLoading(true);
     setError('');
@@ -60,7 +64,7 @@ const Login = () => {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form className="bg-white bg-opacity-10 p-8 rounded-lg shadow-2xl backdrop-blur-sm">
-              <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
+              <h2 className="text-3xl font-bold mb-6 text-center">{t('login')}</h2>
               
               {error && (
                 <Alert variant="destructive" className="mb-4">
@@ -74,19 +78,19 @@ const Login = () => {
                   type="email"
                   name="email"
                   className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200"
-                  placeholder="Enter your email"
+                  placeholder={t('enteremail')}
                 />
                 {errors.email && touched.email && <div className="text-red-500 mt-1">{errors.email}</div>}
               </div>
 
               <div className="mb-6 relative">
-                <label htmlFor="password" className="block mb-2">Password</label>
+                <label htmlFor="password" className="block mb-2">{t('password')}</label>
                 <div className="relative">
                   <Field
                     type={showPassword ? "text" : "password"}
                     name="password"
                     className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200"
-                    placeholder="Enter your password"
+                    placeholder={t('enterpwd')}
                   />
                   <button
                     type="button"
@@ -110,17 +114,17 @@ const Login = () => {
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
                 ) : null}
-                {isLoading ? 'Logging in...' : 'Login'}
+                {isLoading ? 'Logging in...' : t('login')}
               </button>
 
               <div className="mt-4 text-center">
-                <p>Don't have an account?</p>
+                <p>{t('noaccount')}</p>
                 <button
                   type="button"
                   onClick={() => navigate('/register')}
                   className="font-bold underline hover:text-blue-400 transition duration-200"
                 >
-                  Create one here
+                  {t('createacc')}
                 </button>
               </div>
             </Form>

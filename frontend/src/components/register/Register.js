@@ -6,19 +6,21 @@ import * as Yup from 'yup';
 import { Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Alert, AlertDescription } from '../ui/Alert';
+import { useTranslation } from 'react-i18next';
 
-const registerSchema = Yup.object().shape({
-  fullName: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
-});
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  const {t}=useTranslation();
+  const registerSchema = Yup.object().shape({
+    fullName: Yup.string().required(t('required')),
+    email: Yup.string().email('Invalid email').required(t('required')),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required(t('required')),
+  });
+  
   const handleSubmit = async (values, { setSubmitting }) => {
     setIsLoading(true);
     setError('');
@@ -49,7 +51,7 @@ const Register = () => {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form className="bg-white bg-opacity-10 p-8 rounded-lg shadow-2xl backdrop-blur-sm">
-              <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
+              <h2 className="text-3xl font-bold mb-6 text-center">{t('register')}</h2>
               
               {error && (
                 <Alert variant="destructive" className="mb-4">
@@ -58,12 +60,12 @@ const Register = () => {
               )}
 
               <div className="mb-4">
-                <label htmlFor="fullName" className="block mb-2">Full Name</label>
+                <label htmlFor="fullName" className="block mb-2">{t('fullname')}</label>
                 <Field
                   type="text"
                   name="fullName"
                   className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200"
-                  placeholder="Enter your full name"
+                  placeholder={t('enterfullname')}
                 />
                 {errors.fullName && touched.fullName && <div className="text-red-500 mt-1">{errors.fullName}</div>}
               </div>
@@ -74,19 +76,19 @@ const Register = () => {
                   type="email"
                   name="email"
                   className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200"
-                  placeholder="Enter your email"
+                  placeholder={t('enteremail')}
                 />
                 {errors.email && touched.email && <div className="text-red-500 mt-1">{errors.email}</div>}
               </div>
 
               <div className="mb-6 relative">
-                <label htmlFor="password" className="block mb-2">Password</label>
+                <label htmlFor="password" className="block mb-2">{t('password')}</label>
                 <div className="relative">
                   <Field
                     type={showPassword ? "text" : "password"}
                     name="password"
                     className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200"
-                    placeholder="Enter your password"
+                    placeholder={t('enterpwd')}
                   />
                   <button
                     type="button"
@@ -110,17 +112,17 @@ const Register = () => {
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
                 ) : null}
-                {isLoading ? 'Registering...' : 'Register'}
+                {isLoading ? t('registering') : t('register')}
               </button>
 
               <div className="mt-4 text-center">
-                <p>Already have an account?</p>
+                <p>{t('haveaccount')}</p>
                 <button
                   type="button"
                   onClick={() => navigate('/login')}
                   className="font-bold underline hover:text-blue-400 transition duration-200"
                 >
-                  Login here
+                  {t('loginhere')}
                 </button>
               </div>
             </Form>

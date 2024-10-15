@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { Icon } from '@mdi/react';
 import { mdiClose, mdiPlus } from '@mdi/js';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 
 function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName }) {
@@ -17,7 +18,9 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
+  const [scplayer, setScplayer] = useState(null);
 
+  const {t}=useTranslation();
   const initialValues = {
     Name: '',
     age: '',
@@ -129,31 +132,15 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
       let result=null;  
       const token = localStorage.getItem('token');
 
-      const responses = await axios.post('https://sportconnect-khom.onrender.com/api/v1/user/retrieve', { id:localStorage.getItem('id') }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      
-      const data = responses.data;
 
-      if (data.club){
-        let clubId;
-        if (data.club._doc){
-          clubId=data.club._doc._id;
-        }
-        else{
-          clubId=data.club.id;
-        }
-                console.log(clubId)
       const dataToSend = {
-        clubId:clubId,
+        clubId:localStorage.getItem('id'),
         playerData: {
           ...playerData,
           id: selectedPlayerId // Include the selected player's ID if it exists
         }
       };
-
+      console.log(dataToSend.clubId);
       const response = await axios.post('https://sportconnect-khom.onrender.com/api/v1/club/add-player', dataToSend, {
         headers: {
           'Content-Type': 'application/json',
@@ -161,8 +148,8 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
         },
       });
       result = response.data;
-
-    }
+      setFormValues(null);
+    
 
       // Only upload image if a new file was selected
       if (selectedFile) {
@@ -180,21 +167,21 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
     }
   };
   const validationSchema = Yup.object({
-    Name: Yup.string().required('Required'),
-    age: Yup.number().positive('Must be positive').integer('Must be an integer').required('Required'),
-    nationality: Yup.string().required('Required'),
-    weight: Yup.number().positive('Must be positive').required('Required'),
-    height: Yup.number().positive('Must be positive').required('Required'),
-    dominantFoot: Yup.string().oneOf(['left', 'right'], 'Invalid foot').required('Required'),
-    Category: Yup.string().oneOf(['Amateur', 'Professional'], 'Invalid category').required('Required'),
+    Name: Yup.string().required(t('required')),
+    age: Yup.number().positive('Must be positive').integer('Must be an integer').required(t('required')),
+    nationality: Yup.string().required(t('required')),
+    weight: Yup.number().positive('Must be positive').required(t('required')),
+    height: Yup.number().positive('Must be positive').required(t('required')),
+    dominantFoot: Yup.string().oneOf(['left', 'right'], 'Invalid foot').required(t('required')),
+    Category: Yup.string().oneOf(['Amateur', 'Professional'], 'Invalid category').required(t('required')),
     position: Yup.string().oneOf([
       'Attaquant', 'Milieu', 'Défenseur', 'Gardien', 
       'Ailier', 'Milieu défensif', 'Milieu offensif', 
       'Latéral', 'Libéro', 'Arrière central'
-    ], 'Invalid position').required('Required'),
-    matches: Yup.number().integer('Must be an integer').min(0, 'Cannot be negative').required('Required'),
-    goals: Yup.number().integer('Must be an integer').min(0, 'Cannot be negative').required('Required'),
-    passes: Yup.number().integer('Must be an integer').min(0, 'Cannot be negative').required('Required'),
+    ], 'Invalid position').required(t('required')),
+    matches: Yup.number().integer('Must be an integer').min(0, 'Cannot be negative').required(t('required')),
+    goals: Yup.number().integer('Must be an integer').min(0, 'Cannot be negative').required(t('required')),
+    passes: Yup.number().integer('Must be an integer').min(0, 'Cannot be negative').required(t('required')),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -223,7 +210,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full max-h-[90vh] flex flex-col">
       <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Add New Player</h2>
+          <h2 className="text-2xl font-bold text-white">{t('addPlayer')}</h2>
           <button onClick={()=>{
             setFormValues(initialValues);
             setProfileImage(null);
@@ -284,7 +271,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="text"
                   name="Name"
-                  placeholder="Player Name"
+                  placeholder={t('playername')}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
                 <ErrorMessage name="Name" component="div" className="text-red-500 text-sm mt-1" />
@@ -294,7 +281,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="number"
                   name="age"
-                  placeholder="Age"
+                  placeholder={t('age')}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
                 <ErrorMessage name="age" component="div" className="text-red-500 text-sm mt-1" />
@@ -304,7 +291,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="text"
                   name="nationality"
-                  placeholder="Nationality"
+                  placeholder={t('nationality')}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
                 <ErrorMessage name="nationality" component="div" className="text-red-500 text-sm mt-1" />
@@ -314,20 +301,20 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="number"
                   name="weight"
-                  placeholder="Weight (kg)"
+                  placeholder={t('weight')}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
-                <ErrorMessage name="weight" component="div" className="text-red-500 text-sm mt-1" />
+                <ErrorMessage name={t('weight')} component="div" className="text-red-500 text-sm mt-1" />
               </div>
   
               <div>
                 <Field
                   type="number"
                   name="height"
-                  placeholder="Height (cm)"
+                  placeholder={t('height')} 
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
-                <ErrorMessage name="height" component="div" className="text-red-500 text-sm mt-1" />
+                <ErrorMessage name={t('height')} component="div" className="text-red-500 text-sm mt-1" />
               </div>
   
               <div>
@@ -336,9 +323,9 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                   name="dominantFoot"
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 >
-                  <option value="">Select Dominant Foot</option>
-                  <option value="left">Left</option>
-                  <option value="right">Right</option>
+                  <option value="">{t('selectFoot')}</option>
+                  <option value="left">{t('left')}</option>
+                  <option value="right">{t('right')}</option>
                 </Field>
                 <ErrorMessage name="dominantFoot" component="div" className="text-red-500 text-sm mt-1" />
               </div>
@@ -349,9 +336,9 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                   name="Category"
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 >
-                  <option value="">Select Category</option>
+                  <option value="">{t('selectCategory')}</option>
                   <option value="Amateur">Amateur</option>
-                  <option value="Professional">Professional</option>
+                  <option value="Professional">{t('Professional')}</option>
                 </Field>
                 <ErrorMessage name="Category" component="div" className="text-red-500 text-sm mt-1" />
               </div>
@@ -362,17 +349,17 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                   name="position"
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 >
-                  <option value="">Select Position</option>
-                  <option value="Attaquant">Attaquant</option>
-                  <option value="Milieu">Milieu</option>
-                  <option value="Défenseur">Défenseur</option>
-                  <option value="Gardien">Gardien</option>
-                  <option value="Ailier">Ailier</option>
-                  <option value="Milieu défensif">Milieu défensif</option>
-                  <option value="Milieu offensif">Milieu offensif</option>
-                  <option value="Latéral">Latéral</option>
-                  <option value="Libéro">Libéro</option>
-                  <option value="Arrière central">Arrière central</option>
+  <option value="">{t('selectposition')}</option>
+  <option value="Attaquant">{t('footballPositions.Attaquant')}</option>
+  <option value="Milieu">{t('footballPositions.Milieu')}</option>
+  <option value="Défenseur">{t('footballPositions.Défenseur')}</option>
+  <option value="Gardien">{t('footballPositions.Gardien')}</option>
+  <option value="Ailier">{t('footballPositions.Ailier')}</option>
+  <option value="Milieu défensif">{t('footballPositions.Milieu défensif')}</option>
+  <option value="Milieu offensif">{t('footballPositions.Milieu offensif')}</option>
+  <option value="Latéral">{t('footballPositions.Latéral')}</option>
+  <option value="Libéro">{t('footballPositions.Libéro')}</option>
+  <option value="Arrière central">{t('footballPositions.Arrière central')}</option>
                 </Field>
                 <ErrorMessage name="position" component="div" className="text-red-500 text-sm mt-1" />
               </div>
@@ -381,7 +368,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="number"
                   name="matches"
-                  placeholder="Matches Played"
+                  placeholder={t('matchesplayed')}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
                 <ErrorMessage name="matches" component="div" className="text-red-500 text-sm mt-1" />
@@ -391,7 +378,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="number"
                   name="goals"
-                  placeholder="Number of goals"
+                  placeholder={t("numberofgoals")}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
                 <ErrorMessage name="goals" component="div" className="text-red-500 text-sm mt-1" />
@@ -401,7 +388,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 <Field
                   type="number"
                   name="passes"
-                  placeholder="Number of Passes"
+                  placeholder={t('numberofpasses')}
                   className="w-full bg-gray-700 text-white px-4 py-2 rounded"
                 />
                 <ErrorMessage name="passes" component="div" className="text-red-500 text-sm mt-1" />
@@ -412,7 +399,7 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
                 disabled={isSubmitting}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
               >
-                {isSubmitting ? 'Adding...' : 'Add Player'}
+                {isSubmitting ? '' : t('addPlayer')}
               </button>
             </Form>
           )}
@@ -423,8 +410,8 @@ function AddPlayerModal({ isOpen, onClose, onSubmit, clubId, contentClassName })
       {showConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full">
-            <h2 className="text-2xl font-bold text-white mb-4">Confirm Add Player</h2>
-            <p className="text-white mb-6">Are you sure you want to add this player?</p>
+            <h2 className="text-2xl font-bold text-white mb-4">Confirm {t('addPlayer')}</h2>
+            <p className="text-white mb-6">{t('caddp')}</p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={handleCancelSubmit}

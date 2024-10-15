@@ -11,28 +11,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./PlayerS.css";
 import { useAppContext } from '../../App';
+import { useTranslation } from 'react-i18next';
 
-const validationSchema = Yup.object().shape({
-  telephone: Yup.string(),
-  gender: Yup.string().oneOf(['male', 'female'], 'Invalid gender').required('Gender is required'),
-  nationality: Yup.string().required('Nationality is required'),
-  weight: Yup.number().positive('Weight must be positive').required('Weight is required'),
-  height: Yup.number().positive('Height must be positive').required('Height is required'),
-  birthday: Yup.date().required('Birthday is required').max(new Date(), "Birthday can't be in the future"),
-
-  dominantFoot: Yup.string().oneOf(['left', 'right'], 'Invalid dominant foot').required('Dominant foot is required'),
-  cat: Yup.string().oneOf(['Amateur', 'Professional'], 'Invalid category').required('Category is required'),
-  currentClub: Yup.string(),
-  description: Yup.string(),
-  position: Yup.string().oneOf([
-    'Attaquant', 'Milieu', 'Défenseur', 'Gardien', 
-    'Ailier', 'Milieu défensif', 'Milieu offensif', 
-    'Latéral', 'Libéro', 'Arrière central'
-  ], 'Invalid position').required('Position is required'),
-});
-const currentYear = new Date().getFullYear();
-const minDate = new Date(currentYear - 60, 0, 1);
-const maxDate = new Date();
 const PlayerS = () => {
   const navigate = useNavigate();
   const [clubs, setClubs] = useState([]);
@@ -41,6 +21,26 @@ const PlayerS = () => {
   const maxDate = new Date();
   const {id,setId} = useAppContext();
   const {username}=useAppContext();
+  const {t}=useTranslation();
+  const validationSchema = Yup.object().shape({
+  
+    telephone: Yup.string(),
+    gender: Yup.string().oneOf(['male', 'female'], 'Invalid gender').required(t('gender')+" "+t("required")),
+    nationality: Yup.string().required('Nationality is required'),
+    weight: Yup.number().positive('Weight must be positive').required(t('weight')+" "+t("required")),
+    height: Yup.number().positive('Height must be positive').required(t('height')+" "+t("required")),
+    birthday: Yup.date().required(t('birthday')+" "+t("required")).max(new Date(), "Birthday can't be in the future"),
+  
+    dominantFoot: Yup.string().oneOf(['left', 'right'], 'Invalid dominant foot').required(t('df')+" "+t('required')),
+    cat: Yup.string().oneOf(['Amateur', 'Professional'], 'Invalid category').required(t('category')+" "+t("required")),
+    currentClub: Yup.string(),
+    description: Yup.string(),
+    position: Yup.string().oneOf([
+      'Attaquant', 'Milieu', 'Défenseur', 'Gardien', 
+      'Ailier', 'Milieu défensif', 'Milieu offensif', 
+      'Latéral', 'Libéro', 'Arrière central'
+    ], 'Invalid position').required('Position is required'),
+  });
 
   useEffect(() => {
     const fetchClubs = async () => {
@@ -53,7 +53,6 @@ const PlayerS = () => {
     };
     fetchClubs();
   }, []);
-
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const token = localStorage.getItem("token");
@@ -71,7 +70,6 @@ const PlayerS = () => {
       setSubmitting(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
       <motion.div
@@ -90,7 +88,7 @@ const PlayerS = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="text-4xl font-bold text-center mb-8"
       >
-        Player Sign Up
+        {t('playersign')}
       </motion.h1>
 
       <Formik
@@ -112,17 +110,17 @@ const PlayerS = () => {
       >
         {({ errors, touched, isSubmitting, setFieldValue, values, isValid, dirty }) => (
           <Form className="max-w-md mx-auto space-y-6 bg-gray-800 p-8 rounded-lg shadow-lg">
-            <CustomField name="telephone" type="tel" placeholder="Telephone" icon={mdiPhone} />
-            <CustomSelect name="gender" icon={mdiGenderMaleFemale} placeholder="Select Gender">
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+            <CustomField name="telephone" type="tel" placeholder={t('telephone')} icon={mdiPhone} />
+            <CustomSelect name="gender" icon={mdiGenderMaleFemale} placeholder={t('selectgender')}>
+              <option value="male">{t('male')}</option>
+              <option value="female">{t('female')}</option>
             </CustomSelect>
             <div className="relative">
   <DatePicker
     selected={values.birthday}
     onChange={(date) => setFieldValue('birthday', date)}
     dateFormat="dd/MM/yyyy"
-    placeholderText="Birthday"
+    placeholderText={t('birthday')}
     className="w-full bg-transparent border border-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
     minDate={minDate}
     maxDate={maxDate}
@@ -134,41 +132,41 @@ const PlayerS = () => {
   <ErrorMessage name="birthday" component="div" className="text-red-500 text-sm mt-1" />
 </div>
  
-            <CustomSelect name="nationality" icon={mdiFlag} placeholder="Select Nationality">
+            <CustomSelect name="nationality" icon={mdiFlag} placeholder={t('selectCountry')}>
               {nationalities.map((nationality, index) => (
                 <option key={index} value={nationality}>{nationality}</option>
               ))}
             </CustomSelect>
 
-            <CustomField name="weight" type="number" placeholder="Weight (kg)" icon={mdiScaleBathroom} />
-            <CustomField name="height" type="number" placeholder="Height (cm)" icon={mdiHumanMaleHeightVariant} />
-            <CustomSelect name="dominantFoot" icon={mdiShoeCleat} placeholder="Select Dominant Foot">
-              <option value="left">Left foot</option>
-              <option value="right">Right foot</option>
+            <CustomField name="weight" type="number" placeholder={t('weight')} icon={mdiScaleBathroom} />
+            <CustomField name="height" type="number" placeholder={t('height')} icon={mdiHumanMaleHeightVariant} />
+            <CustomSelect name="dominantFoot" icon={mdiShoeCleat} placeholder={t('selectFoot')}>
+              <option value="left">{t('left')}</option>
+              <option value="right">{t('right')}</option>
             </CustomSelect>
             <CustomSelect name="cat" placeholder="Select Category">
               <option value="Amateur">Amateur</option>
-              <option value="Professional">Professional</option>
+              <option value="Professional">{t('Professional')}</option>
             </CustomSelect>
-            <CustomSelect name="currentClub" icon={mdiDomain} placeholder="Select Current Club">
-  <option >No Club</option>
+            <CustomSelect name="currentClub" icon={mdiDomain} placeholder={t('selectclub')}>
+  <option >{t('noclub')}</option>
   {clubs.map((club, index) => (
     <option key={index} value={club.clubName}>{club.clubName}</option>
   ))}
 </CustomSelect>
-            <CustomSelect name="position" icon={mdiSoccer} placeholder="Select Position">
-              <option value="Attaquant">Attaquant</option>
-              <option value="Milieu">Milieu</option>
-              <option value="Défenseur">Défenseur</option>
-              <option value="Gardien">Gardien</option>
-              <option value="Ailier">Ailier</option>
-              <option value="Milieu défensif">Milieu défensif</option>
-              <option value="Milieu offensif">Milieu offensif</option>
-              <option value="Latéral">Latéral</option>
-              <option value="Libéro">Libéro</option>
-              <option value="Arrière central">Arrière central</option>
+            <CustomSelect name="position" icon={mdiSoccer} placeholder={t('selectposition')}>
+              <option value="Attaquant">{t('footballPositions.Attaquant')}</option>
+              <option value="Milieu">{t('footballPositions.Milieu')}</option>
+              <option value="Défenseur">{t('footballPositions.Défenseur')}</option>
+              <option value="Gardien">{t('footballPositions.Gardien')}</option>
+              <option value="Ailier">{t('footballPositions.Ailier')}</option>
+              <option value="Milieu défensif">{t('footballPositions.Milieu défensif')}</option>
+              <option value="Milieu offensif">{t('footballPositions.Milieu offensif')}</option>
+              <option value="Latéral">{t('footballPositions.Latéral')}</option>
+              <option value="Libéro">{t('footballPositions.Libéro')}</option>
+              <option value="Arrière central">{t('footballPositions.Arrière central')}</option>
             </CustomSelect>
-            <CustomField name="description" as="textarea" placeholder="Description (optional)" rows="3" />
+            <CustomField name="description" as="textarea" placeholder={"Description ("+t('optional')+")"} rows="3" />
             <motion.button
               type="submit"
               disabled={isSubmitting || !(isValid && dirty)}
@@ -180,7 +178,7 @@ const PlayerS = () => {
               whileHover={{ scale: isValid && dirty ? 1.05 : 1 }}
               whileTap={{ scale: isValid && dirty ? 0.95 : 1 }}
             >
-              {isSubmitting ? 'Submitting...' : 'Sign Up'}
+              {isSubmitting ? t('submitting') : t('signup')}
             </motion.button>
           </Form>
         )}
