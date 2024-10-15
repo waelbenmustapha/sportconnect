@@ -29,21 +29,20 @@ const Footer = () => {
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-4">{t('footer.contact')}</h3>
-            <p className="text-gray-300">{t('footer.email')}: info@example.com</p>
-            <p className="text-gray-300">{t('footer.phone')}: +1 234 567 890</p>
+            <p className="text-gray-300">{t('footer.email')}: connectsport4@gmail.com</p>
+            <p className="text-gray-300">{t('footer.phone')}: +216 20 059 443</p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-4">{t('footer.followUs')}</h3>
             <div className="flex flex-wrap gap-4">
-              <a href="#" className="text-gray-300 hover:text-white transition">Github</a>
-              <a href="#" className="text-gray-300 hover:text-white transition">Twitter</a>
-              <a href="#" className="text-gray-300 hover:text-white transition">Linkedin</a>
-              <a href="#" className="text-gray-300 hover:text-white transition">Instagram</a>
+              <a href="https://www.facebook.com/profile.php?id=61566982827644&mibextid=kFxxJD" target='_blank' className="text-gray-300 hover:text-white transition">Facebook</a>
+              <a href="https://www.tiktok.com/@sport_connect" target='_blank'  className="text-gray-300 hover:text-white transition">Tik Tok</a>
+              <a href="https://www.instagram.com/sportconnect5/" target='_blank'  className="text-gray-300 hover:text-white transition">Instagram</a>
             </div>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-          <p className="text-gray-300">&copy; 2024 Your Company Name. {t('footer.allRightsReserved')}</p>
+          <p className="text-gray-300">&copy; 2024 Sport connect. {t('footer.allRightsReserved')}</p>
         </div>
       </div>
     </motion.footer>

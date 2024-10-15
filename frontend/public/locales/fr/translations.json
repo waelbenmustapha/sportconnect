@@ -148,7 +148,7 @@
     "adding":"Ajout...",
     "addplay":"Sélectionnez un joueur existant ou ajoutez-en un nouveau",
     "changevid":"Changer de vidéo",
-    "english":"Anglais",
+    "english":"AN",
     "removeCoachagent":"Ce coach n'est plus associé à l'agent actuel.",
     "removePlayeragent":"Ce joueur n'est plus associé à l'agent actuel.",
     "beginby":"Commencez par sélectionner votre type de profil",
@@ -171,7 +171,7 @@
     "clubvid":"video de club",
     "playervid":"video de joueur",
     "agentvid":"video d'agent",
-    "francais":"Francais",
+    "francais":"FR",
     "country":"pays",
     "sports": {
       "Football": "Football",

@@ -29,21 +29,25 @@ function LanguageSwitcher() {
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <button
               onClick={() => changeLanguage('en')}
-              className={`block w-full text-left px-4 py-2 text-sm ${
+              className={`flex gap-2 w-full text-left px-4 py-2 text-sm ${
                 i18n.language === 'en' ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
               }`}
               role="menuitem"
             >
-              {t('english')}
+              <p className='w-5'>{t('english')}</p>
+              <img src='en.png' className='h-5 w-5'/>
+
             </button>
             <button
               onClick={() => changeLanguage('fr')}
-              className={`block w-full text-left px-4 py-2 text-sm  ${
+              className={`flex gap-2 w-full text-left px-4 py-2 text-sm  ${
                 i18n.language === 'fr' ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
               }`}
               role="menuitem"
             >
-              {t('francais')}
+             <p  className='w-5'>{t('francais')}</p> 
+              <img src='fr.png' className='h-5 w-5'/>
+
             </button>
           </div>
         </div>
